@@ -1,0 +1,12 @@
+# Build the Backend Image
+# Navigate to the backend directory or run from root context
+docker build -t voz_ativa_backend ./backend
+
+# Build the Frontend Image
+# Navigate to the frontend directory or run from root context
+docker build -t voz_ativa_frontend ./frontend
+
+
+sudo docker build -t voz_ativa_backend ./backend; sudo docker build -t voz_ativa_frontend ./frontend
+
+evxUbxuf4XAq
