@@ -19,7 +19,7 @@ export async function loginService(command: LoginCommand): Promise<UsuarioResult
 
   const empresa = await prisma.empresa.findFirst({
     where: {
-      nome: { //TO-DO: implementar slug
+      slug: { //TO-DO: implementar slug
         equals: empresaSlug
       }
     }

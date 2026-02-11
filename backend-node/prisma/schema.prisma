@@ -25,15 +25,31 @@ model Usuario {
   data_criacao      DateTime @default(now())
   ligacoes          Ligacao[]
   gatilhos          Gatilho[]
+  empresaChaveApis  EmpresaChaveApi[]
 }
 
 model Empresa {
   id        String  @id @default(uuid())
   nome      String
+  slug      String @unique
   status    Boolean @default(true)
+  data_criacao DateTime @default(now())
   usuarios  Usuario[]
   ligacoes  Ligacao[]
   gatilhos  Gatilho[]
+  empresaChaveApis EmpresaChaveApi[]
+}
+
+model EmpresaChaveApi {
+  id String @id @default(uuid())
+  chave_hash String
+  chave_ultimos_digitos String
+  empresa_id String
+  data_criacao DateTime @default(now())
+  data_revogacao DateTime?
+  usuario_id String
+  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  empresa Empresa @relation(fields: [empresa_id], references: [id])
 }
 
 model Gatilho {
