@@ -13,8 +13,8 @@ const port = 3000;
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/admin", authMiddleware, adminRouter);
 app.use("/auth", authRouter);
+app.use("/admin", authMiddleware, adminRouter);
 app.use("/chave-api", authMiddleware, chaveApiRouter)
 app.use("/usuarios", authMiddleware, usuarioRouter)
 
