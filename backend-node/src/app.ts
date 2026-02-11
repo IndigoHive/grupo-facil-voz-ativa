@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/admin", authMiddleware, adminRouter);
+app.use("/usuarios", authMiddleware, usuarioRouter)
 app.use("/auth", authRouter);
-app.use("/usuarios", usuarioRouter)
 
 app.get("/health", (req, res) => {
   res.json({ health: true });
