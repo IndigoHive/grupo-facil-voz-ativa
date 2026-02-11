@@ -8,6 +8,7 @@ import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
 import { adminRouter } from './routers/adminRouter'
 import { chaveApiRouter } from './routers/chaveApi'
 import { gatilhosRouter } from './routers/gatilhosRouter'
+import { ligacoesRouter } from './routers/ligacoesRouter'
 
 const app = express();
 const port = 3000;
@@ -19,6 +20,7 @@ app.use("/auth", authRouter);
 app.use("/admin", authMiddleware, adminRouter);
 app.use("/chave-api", authMiddleware, chaveApiRouter)
 app.use("/gatilhos", authMiddleware, gatilhosRouter)
+app.use("/ligacoes", authMiddleware, ligacoesRouter)
 app.use("/usuarios", authMiddleware, usuarioRouter)
 
 app.get("/health", (req, res) => {
