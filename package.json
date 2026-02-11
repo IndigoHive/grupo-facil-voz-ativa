@@ -1,0 +1,16 @@
+{
+  "packageManager": "npm@8.5.0",
+  "devDependencies": {
+    "turbo": "^2.8.6"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
