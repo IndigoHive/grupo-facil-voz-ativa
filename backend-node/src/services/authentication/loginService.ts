@@ -1,9 +1,9 @@
 import * as yup from 'yup'
 import { prisma } from '../../lib/prisma'
-import { Usuario } from '../../../generated/prisma/browser'
 import { BadRequestError, NotFoundError } from '../../lib/errors'
 import { validateOrThrow } from '../../lib/validateOrThrow'
 import { verifyPassword } from '../../lib/password'
+import { UsuarioResult } from '../../lib/types/usuario-result'
 
 
 const commandSchema = yup.object({
@@ -13,7 +13,7 @@ const commandSchema = yup.object({
 
 export type LoginCommand = yup.InferType<typeof commandSchema>
 
-export async function loginService(command: LoginCommand): Promise<Usuario> {
+export async function loginService(command: LoginCommand): Promise<UsuarioResult> {
   const { email, senha } = validateOrThrow<LoginCommand>(commandSchema, command);
 
   const user = await prisma.usuario.findFirst({
@@ -37,5 +37,7 @@ export async function loginService(command: LoginCommand): Promise<Usuario> {
     throw new BadRequestError('Senha inválida');
   }
 
-  return user
+  const { senha: _, ...userWithoutPassword } = user;
+
+  return userWithoutPassword
 }
