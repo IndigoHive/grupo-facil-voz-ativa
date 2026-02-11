@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { generateToken } from '../lib/jwt'
 import { loginService } from '../services/authentication/loginService'
+import { getAuthenticatedUser } from '../middleware/authMiddleware'
 
 export const authRouter = Router();
 
@@ -19,3 +20,8 @@ authRouter.post("/logout", (req, res) => {
   res.clearCookie("token");
   return res.json({ message: "Logout realizado com sucesso" });
 })
+
+authRouter.get("/me", async (req, res) => {
+  const user = await getAuthenticatedUser(req);
+  return res.json(user);
+});

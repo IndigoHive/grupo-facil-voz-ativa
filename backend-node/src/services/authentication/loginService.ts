@@ -8,15 +8,28 @@ import { UsuarioResult } from '../../lib/types/usuario-result'
 
 const commandSchema = yup.object({
   email: yup.string().email().required(),
-  senha: yup.string().required()
+  senha: yup.string().required(),
+  empresaSlug: yup.string().required()
 })
 
 export type LoginCommand = yup.InferType<typeof commandSchema>
 
 export async function loginService(command: LoginCommand): Promise<UsuarioResult> {
-  const { email, senha } = validateOrThrow<LoginCommand>(commandSchema, command);
+  const { email, senha, empresaSlug } = validateOrThrow<LoginCommand>(commandSchema, command);
 
-  const user = await prisma.usuario.findFirst({
+  const empresa = await prisma.empresa.findFirst({
+    where: {
+      nome: { //TO-DO: implementar slug
+        equals: empresaSlug
+      }
+    }
+  })
+
+  if (!empresa) {
+    throw new NotFoundError('Empresa não encontrada');
+  }
+
+  var user = await prisma.usuario.findFirst({
     where: {
       email: {
         equals: email,
@@ -33,8 +46,13 @@ export async function loginService(command: LoginCommand): Promise<UsuarioResult
   }
 
   const isValid = await verifyPassword(senha, user.senha);
+
   if (!isValid) {
     throw new BadRequestError('Senha inválida');
+  }
+
+  if (user.is_superadmin) {
+    user.empresa_id = empresa.id
   }
 
   const { senha: _, ...userWithoutPassword } = user;
