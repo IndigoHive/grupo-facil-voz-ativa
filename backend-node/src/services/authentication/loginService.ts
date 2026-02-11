@@ -2,8 +2,8 @@ import * as yup from 'yup'
 import { prisma } from '../../lib/prisma'
 import { Usuario } from '../../../generated/prisma/browser'
 import { BadRequestError, NotFoundError } from '../../lib/errors'
-import { IResult } from '../../lib/interface/result'
 import { validateOrThrow } from '../../lib/validateOrThrow'
+import { verifyPassword } from '../../lib/password'
 
 
 const commandSchema = yup.object({
@@ -28,7 +28,11 @@ export async function loginService(command: LoginCommand): Promise<Usuario> {
     throw new NotFoundError('Usuário não encontrado');
   }
 
-  const isValid = user.senha === senha;
+  if (user.senha === null) {
+    throw new BadRequestError('Usuário não possui senha definida');
+  }
+
+  const isValid = await verifyPassword(senha, user.senha);
   if (!isValid) {
     throw new BadRequestError('Senha inválida');
   }
