@@ -1,0 +1,183 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Usuario {
+  id                String   @id @default(uuid())
+  email             String   @unique
+  senha             String?
+  is_admin          Boolean  @default(false)
+  is_superadmin     Boolean  @default(false)
+  is_admin_empresa  Boolean  @default(false)
+  empresa           Empresa? @relation(fields: [empresa_id], references: [id])
+  empresa_id        String?
+  data_criacao      DateTime @default(now())
+  ligacoes          Ligacao[]
+  gatilhos          Gatilho[]
+}
+
+model Empresa {
+  id        String  @id @default(uuid())
+  nome      String
+  status    Boolean @default(true)
+  usuarios  Usuario[]
+  ligacoes  Ligacao[]
+  gatilhos  Gatilho[]
+}
+
+model Gatilho {
+  id             String   @id @default(uuid())
+  descricao      String
+  destinatario   String
+  tipo           String   @default("WhatsApp")
+  empresa        Empresa? @relation(fields: [empresa_id], references: [id])
+  empresa_id     String?
+  usuario        Usuario? @relation(fields: [usuario_id], references: [id])
+  usuario_id     String?
+}
+
+model Ligacao {
+  id                              String   @id @default(uuid())
+  data_criacao                    DateTime @default(now())
+  nome_agente                     String?
+  nome_cliente                    String?
+  status_resolucao                String?
+  qualidade_servico               String?
+  duracao_ligacao                 Float?
+  sentimento_geral_cliente        String?
+  resumo                          String?
+  id_unico                        String?  @unique
+  dialogo                         String?
+  variacao_de_sentimento_cliente  String?
+  numero_protocolo                String?
+  cpf_cliente                     String?
+  irc_score                       Int?
+  irc_score_pilar_1               String?
+  irc_score_pilar_2               String?
+  irc_score_pilar_3               String?
+  irc_score_pilar_4               String?
+  irc_classificacao               String?
+  pilar_1_irc_trechos             String?
+  pilar_2_irc_trechos             String?
+  pilar_3_irc_trechos             String?
+  pilar_4_irc_trechos             String?
+  pilar_1_justificativa           String?
+  pilar_2_justificativa           String?
+  pilar_3_justificativa           String?
+  pilar_4_justificativa           String?
+  silencio_ligacao                 Float?
+  pontos_obtidos_rn623            Int?
+  score_conformidade_rn623        Float?
+  nivel_conformidade_rn           String?
+  empresa                         Empresa? @relation(fields: [empresa_id], references: [id])
+  empresa_id                      String?
+  usuario                         Usuario? @relation(fields: [usuario_id], references: [id])
+  usuario_id                      String?
+  temas                           TemaLigacao[]
+  sentimentos_cliente_inicial     SentimentoClienteInicialLigacao[]
+  sentimentos_cliente_final       SentimentoClienteFinalLigacao[]
+  sentimentos_agente              SentimentoAgenteLigacao[]
+  criterios_rn                    CriterioAplicavelRnLigacao[]
+  criterios_rn623                 CriterioAtendidoRn623Ligacao[]
+}
+
+model Tema {
+  id    String @id @default(uuid())
+  nome  String
+  ligacoes TemaLigacao[]
+}
+
+
+model TemaLigacao {
+  ligacao_id String
+  tema_id    String
+  ligacao    Ligacao @relation(fields: [ligacao_id], references: [id])
+  tema       Tema    @relation(fields: [tema_id], references: [id])
+  @@id([ligacao_id, tema_id])
+}
+
+model SentimentoAgente {
+  id         String @id @default(uuid())
+  sentimento String
+  ligacoes   SentimentoAgenteLigacao[]
+}
+
+
+model SentimentoAgenteLigacao {
+  ligacao_id            String
+  sentimento_agente_id  String
+  ligacao               Ligacao           @relation(fields: [ligacao_id], references: [id])
+  sentimento_agente     SentimentoAgente  @relation(fields: [sentimento_agente_id], references: [id])
+  @@id([ligacao_id, sentimento_agente_id])
+}
+
+model SentimentoClienteFinal {
+  id         String @id @default(uuid())
+  sentimento String
+  ligacoes   SentimentoClienteFinalLigacao[]
+}
+
+
+model SentimentoClienteFinalLigacao {
+  ligacao_id                   String
+  sentimento_cliente_final_id  String
+  ligacao                      Ligacao                  @relation(fields: [ligacao_id], references: [id])
+  sentimento_cliente_final     SentimentoClienteFinal   @relation(fields: [sentimento_cliente_final_id], references: [id])
+  @@id([ligacao_id, sentimento_cliente_final_id])
+}
+
+model SentimentoClienteInicial {
+  id         String @id @default(uuid())
+  sentimento String
+  ligacoes   SentimentoClienteInicialLigacao[]
+}
+
+
+model SentimentoClienteInicialLigacao {
+  ligacao_id                      String
+  sentimento_cliente_inicial_id   String
+  ligacao                         Ligacao                     @relation(fields: [ligacao_id], references: [id])
+  sentimento_cliente_inicial      SentimentoClienteInicial    @relation(fields: [sentimento_cliente_inicial_id], references: [id])
+  @@id([ligacao_id, sentimento_cliente_inicial_id])
+}
+
+model CriterioAplicavelRn {
+  id        String @id @default(uuid())
+  criterio  String
+  ligacoes  CriterioAplicavelRnLigacao[]
+}
+
+
+model CriterioAplicavelRnLigacao {
+  ligacao_id                String
+  criterio_aplicavel_rn_id  String
+  ligacao                   Ligacao                @relation(fields: [ligacao_id], references: [id])
+  criterio_aplicavel_rn     CriterioAplicavelRn    @relation(fields: [criterio_aplicavel_rn_id], references: [id])
+  @@id([ligacao_id, criterio_aplicavel_rn_id])
+}
+
+model CriterioAtendidoRn623 {
+  id        String @id @default(uuid())
+  criterio  String
+  ligacoes  CriterioAtendidoRn623Ligacao[]
+}
+
+
+model CriterioAtendidoRn623Ligacao {
+  ligacao_id                    String
+  criterio_atendido_rn623_id    String
+  ligacao                       Ligacao                   @relation(fields: [ligacao_id], references: [id])
+  criterio_atendido_rn623       CriterioAtendidoRn623     @relation(fields: [criterio_atendido_rn623_id], references: [id])
+  @@id([ligacao_id, criterio_atendido_rn623_id])
+}
