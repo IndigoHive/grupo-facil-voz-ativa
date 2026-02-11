@@ -39,3 +39,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Database
+node_modules
+
+generated
+
+/generated/prisma

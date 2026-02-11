@@ -3,7 +3,7 @@ import cookieParser from "cookie-parser";
 import { authMiddleware } from "./middleware/authMiddleware";
 import { authRouter } from './routers/authRouter'
 import { usuarioRouter } from './routers/usuariosRouter'
-import { errorHandler } from './lib/errorHandler';
+import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
 import { adminRouter } from './routers/adminRouter'
 import { chaveApiRouter } from './routers/chaveApi'
 
@@ -28,7 +28,7 @@ app.get("/protected", authMiddleware, (req, res) => {
 
 
 // Middleware de tratamento de erros deve ser o último
-app.use(errorHandler);
+app.use(errorHandlerMiddleware);
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);

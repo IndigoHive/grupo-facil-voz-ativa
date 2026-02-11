@@ -1,9 +1,9 @@
 import * as yup from 'yup'
-import { prisma } from '../../lib/prisma'
 import { BadRequestError, NotFoundError } from '../../lib/errors'
 import { validateOrThrow } from '../../lib/validateOrThrow'
 import { verifyPassword } from '../../lib/password'
 import { UsuarioResult } from '../../lib/types/usuario-result'
+import { prisma } from '@voz-ativa/database'
 
 
 const commandSchema = yup.object({

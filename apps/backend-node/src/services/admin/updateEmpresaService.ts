@@ -1,8 +1,7 @@
 import * as  yup from 'yup'
 import { validateOrThrow } from '../../lib/validateOrThrow'
-import { prisma } from '../../lib/prisma'
-import { Empresa } from '../../../generated/prisma/client'
 import { slugify } from '../../lib/slugify'
+import { Empresa, prisma } from '@voz-ativa/database'
 
 const commandSchema = yup.object({
   nome: yup.string().optional(),

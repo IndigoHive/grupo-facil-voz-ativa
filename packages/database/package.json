@@ -1,0 +1,29 @@
+{
+  "name": "@voz-ativa/database",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "db:generate": "prisma generate",
+    "db:create-migrate": "prisma migrate dev --create-only",
+    "db:migrate-dev": "prisma migrate dev",
+    "db:migrate-deploy": "prisma migrate deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.4.0",
+    "@prisma/client": "^7.4.0",
+    "dotenv": "^17.2.4",
+    "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.16.0",
+    "prisma": "^7.4.0"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  }
+}

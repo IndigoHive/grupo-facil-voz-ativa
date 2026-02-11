@@ -1,4 +1,5 @@
-import { prisma } from '../../lib/prisma'
+
+import { prisma } from '@voz-ativa/database'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 
 export async function revokeEmpresaChaveApiService(

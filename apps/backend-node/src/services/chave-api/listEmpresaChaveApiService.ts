@@ -1,5 +1,4 @@
-import { EmpresaChaveApi } from '../../../generated/prisma/client'
-import { prisma } from '../../lib/prisma'
+import { EmpresaChaveApi, prisma } from '@voz-ativa/database'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 
 export async function listEmpresaChaveApiService (

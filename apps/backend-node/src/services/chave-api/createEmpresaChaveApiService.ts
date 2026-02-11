@@ -1,10 +1,9 @@
 
-import { EmpresaChaveApi } from '../../../generated/prisma/client'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 import * as yup from 'yup'
 import { validateOrThrow } from '../../lib/validateOrThrow'
-import { prisma } from '../../lib/prisma'
 import crypto from 'crypto'
+import { EmpresaChaveApi, prisma } from '@voz-ativa/database'
 
 const commandSchema = yup.object({
   nome: yup.string().required()
