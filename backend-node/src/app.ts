@@ -4,6 +4,7 @@ import { authMiddleware } from "./middleware/authMiddleware";
 import { authRouter } from './routers/authRouter'
 import { usuarioRouter } from './routers/usuariosRouter'
 import { errorHandler } from './lib/errorHandler';
+import { adminRouter } from './routers/adminRouter'
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,7 @@ const port = 3000;
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/admin", authMiddleware, adminRouter);
 app.use("/auth", authRouter);
 app.use("/usuarios", usuarioRouter)
 
