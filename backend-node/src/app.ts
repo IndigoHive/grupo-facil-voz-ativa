@@ -5,6 +5,7 @@ import { authRouter } from './routers/authRouter'
 import { usuarioRouter } from './routers/usuariosRouter'
 import { errorHandler } from './lib/errorHandler';
 import { adminRouter } from './routers/adminRouter'
+import { chaveApiRouter } from './routers/chaveApi'
 
 const app = express();
 const port = 3000;
@@ -13,8 +14,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/admin", authMiddleware, adminRouter);
-app.use("/usuarios", authMiddleware, usuarioRouter)
 app.use("/auth", authRouter);
+app.use("/chave-api", authMiddleware, chaveApiRouter)
+app.use("/usuarios", authMiddleware, usuarioRouter)
 
 app.get("/health", (req, res) => {
   res.json({ health: true });
