@@ -7,6 +7,7 @@ import { usuarioRouter } from './routers/usuariosRouter'
 import { errorHandlerMiddleware } from './middleware/errorHandlerMiddleware';
 import { adminRouter } from './routers/adminRouter'
 import { chaveApiRouter } from './routers/chaveApi'
+import { gatilhosRouter } from './routers/gatilhosRouter'
 
 const app = express();
 const port = 3000;
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use("/auth", authRouter);
 app.use("/admin", authMiddleware, adminRouter);
 app.use("/chave-api", authMiddleware, chaveApiRouter)
+app.use("/gatilhos", authMiddleware, gatilhosRouter)
 app.use("/usuarios", authMiddleware, usuarioRouter)
 
 app.get("/health", (req, res) => {
@@ -26,7 +28,6 @@ app.get("/health", (req, res) => {
 app.get("/protected", authMiddleware, (req, res) => {
   res.json({ message: "Você está autenticado!", user: req.user });
 });
-
 
 // Middleware de tratamento de erros deve ser o último
 app.use(errorHandlerMiddleware);
