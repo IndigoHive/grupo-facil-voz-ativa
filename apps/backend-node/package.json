@@ -17,14 +17,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@voz-ativa/database": "*",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "tsx": "^4.21.0",
-    "yup": "^1.7.1",
-    "@voz-ativa/database": "*"
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

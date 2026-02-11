@@ -13,7 +13,7 @@ authRouter.post("/login", async (req, res) => {
 
   res.cookie("token", token, { httpOnly: true, maxAge: 86400000 });
 
-  return res.json({ message: "Login realizado com sucesso" });
+  return res.json(user);
 });
 
 

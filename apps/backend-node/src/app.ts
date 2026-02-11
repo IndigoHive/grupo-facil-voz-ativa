@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from "express";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import { authMiddleware } from "./middleware/authMiddleware";
 import { authRouter } from './routers/authRouter'
@@ -10,8 +11,15 @@ import { chaveApiRouter } from './routers/chaveApi'
 import { gatilhosRouter } from './routers/gatilhosRouter'
 import { ligacoesRouter } from './routers/ligacoesRouter'
 
+
 const app = express();
 const port = 3000;
+
+// Configuração básica de CORS (ajuste origin conforme necessário)
+app.use(cors({
+  origin: true, // ou especifique a origem: 'http://localhost:5173'
+  credentials: true
+}))
 
 app.use(express.json());
 app.use(cookieParser());

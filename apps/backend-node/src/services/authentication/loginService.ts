@@ -55,7 +55,14 @@ export async function loginService(command: LoginCommand): Promise<UsuarioResult
     user.empresa_id = empresa.id
   }
 
-  const { senha: _, ...userWithoutPassword } = user;
-
-  return userWithoutPassword
+  return {
+    id: user.id,
+    empresa_slug: empresa.slug,
+    data_criacao: user.data_criacao,
+    email: user.email,
+    empresa_id: user.empresa_id,
+    is_admin: user.is_admin,
+    is_admin_empresa: user.is_admin_empresa,
+    is_superadmin: user.is_superadmin,
+  }
 }
