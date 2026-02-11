@@ -1,3 +1,20 @@
+# Turborepo
+node_modules/.cache/turbo
+.turbo/
+
+node_modules
+
+#Backend Node
+dist
+node_modules
+*.local
+
+postgres
+
+/generated
+
+
+#Frontend
 # Logs
 logs
 *.log
