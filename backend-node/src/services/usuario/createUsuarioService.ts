@@ -1,6 +1,8 @@
 import * as yup from "yup";
 import { prisma } from '../../lib/prisma'
 import { IResult } from '../../lib/interface/result'
+import { validateOrThrow } from '../../lib/validateOrThrow'
+import { BadRequestError } from '../../lib/errors'
 
 const commandSchema = yup.object({
   email: yup.string().email().required(),
@@ -9,26 +11,26 @@ const commandSchema = yup.object({
 
 export type CreateUsuarioCommand = yup.InferType<typeof commandSchema>
 
-export type CreateUsuarioResult = IResult<void>
 
-export async function createUsuarioService(data: CreateUsuarioCommand): Promise<CreateUsuarioResult> {
-  const { email, senha } = commandSchema.validateSync(data)
+export async function createUsuarioService(data: CreateUsuarioCommand): Promise<void> {
+  const { email, senha } = validateOrThrow<CreateUsuarioCommand>(commandSchema, data)
 
-  try {
-    await prisma.usuario.create({
-      data: {
-        email,
-        senha
+  const existingUser = await prisma.usuario.findFirst({
+    where: {
+      email: {
+        equals: email
       }
-    })
+    }
+  })
 
-    return {
-      isError: false
-    }
-  } catch (e) {
-    return {
-      isError: true,
-      errorMessage: e
-    }
+  if (existingUser) {
+    throw new BadRequestError(`Usuário já existe com o email "${email}"`)
   }
+
+  await prisma.usuario.create({
+    data: {
+      email,
+      senha
+    }
+  })
 }

@@ -5,13 +5,8 @@ import { loginService } from '../services/authentication/loginService'
 export const authRouter = Router();
 
 authRouter.post("/login", async (req, res) => {
-  var result = await loginService(req.body)
+  const user = await loginService(req.body)
 
-  if (result.isError) {
-    return res.status(400).json({ message: result.errorMessage })
-  }
-
-  const user = result.data
   const token = generateToken(user);
 
   res.cookie("token", token, { httpOnly: true, maxAge: 86400000 });
