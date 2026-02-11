@@ -2,6 +2,7 @@ import { Router } from "express";
 import { generateToken } from '../lib/jwt'
 import { loginService } from '../services/authentication/loginService'
 import { getAuthenticatedUser } from '../middleware/authMiddleware'
+import { resetUsuarioSenhaCommand } from '../services/authentication/resetUsuarioSenhaService'
 
 export const authRouter = Router();
 
@@ -24,4 +25,10 @@ authRouter.post("/logout", (req, res) => {
 authRouter.get("/me", async (req, res) => {
   const user = await getAuthenticatedUser(req);
   return res.json(user);
+});
+
+authRouter.post("/reset-senha", async (req, res) => {
+  const result = await resetUsuarioSenhaCommand(req.body)
+
+  return res.json(result);
 });
