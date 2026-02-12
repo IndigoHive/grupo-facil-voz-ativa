@@ -1,6 +1,5 @@
 export type CreateUsuarioCommand = {
   email: string
-  senha: string
   isAdmin?: boolean
 }
 
