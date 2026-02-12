@@ -5,7 +5,7 @@ export async function listUsuarioService(authenticatedUsuario: UsuarioResult): P
   const usuarios = await prisma.usuario.findMany({
     where: {
       usuarioEmpresas: {
-        every: {
+        some: {
           empresa_id: authenticatedUsuario.empresa!.id
         }
       }
