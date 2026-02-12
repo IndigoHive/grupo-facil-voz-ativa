@@ -10,6 +10,7 @@ import { adminRouter } from './routers/adminRouter'
 import { chaveApiRouter } from './routers/chaveApi'
 import { gatilhosRouter } from './routers/gatilhosRouter'
 import { ligacoesRouter } from './routers/ligacoesRouter'
+import { initLocal } from './services/admin/init'
 
 
 const app = express();
@@ -30,6 +31,11 @@ app.use("/chave-api", authMiddleware, chaveApiRouter)
 app.use("/gatilhos", authMiddleware, gatilhosRouter)
 app.use("/ligacoes", authMiddleware, ligacoesRouter)
 app.use("/usuarios", authMiddleware, usuarioRouter)
+
+app.post("/popular-local", async (req, res, next) => {
+  await initLocal()
+  res.status(200).json({ message: 'Dados populados com sucesso' })
+})
 
 app.get("/health", (req, res) => {
   res.json({ health: true });
