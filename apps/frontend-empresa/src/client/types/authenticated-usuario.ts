@@ -1,6 +1,10 @@
 export type AuthenticatedUsuario = {
   id: string
   email: string
-  empresa_id: string
-  empresa_slug: string
+  dataCriacao: string
+  isSuperAdmin: boolean
+  empresa?: {
+    id: string
+    slug: string
+  }
 }
