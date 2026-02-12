@@ -8,7 +8,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarMenuItem
 } from "@/components/ui/sidebar"
 import { Link, useLocation } from "react-router"
 import {
@@ -22,6 +22,9 @@ import type { ReactNode } from "react"
 import { useAuthentication } from '../../hooks/use-authentication'
 import { useLogout } from '../../hooks/fetch/use-logout'
 import { Button } from '../../components/ui/button'
+import { useEmpresaDisponiveis } from '../../hooks/fetch/use-empresa-disponiveis'
+import { useSelectEmpresa } from '../../hooks/fetch/use-select-empresa'
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '../../components/ui/select'
 
 type MenuItem = {
   label: string
@@ -68,16 +71,51 @@ export function LayoutSidebar() {
     authentication.refreshAuthenticatedUsuario?.()
   }
 
+  const {
+    data: empresasDisponiveis,
+    isPending: isLoadingEmpresas
+  } = useEmpresaDisponiveis()
+
+  const {
+    mutateAsync: selectEmpresa,
+    isPending: isSelectingEmpresa
+  } = useSelectEmpresa()
+
+  const handleSelectEmpresa = async (empresaId: string) => {
+    await selectEmpresa({ empresaId })
+    authentication.refreshAuthenticatedUsuario?.()
+  }
+
   const empresaSlug = authentication.authenticatedUsuario?.empresa?.slug
+  const empresaId = authentication.authenticatedUsuario?.empresa?.id
 
   return (
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="p-2">
-            <Link to="/">
-              Voz Ativa
-            </Link>
+            <p className='text-lg font-semibold'>Voz Ativa</p>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Select
+              value={empresaId}
+              onValueChange={(value) => handleSelectEmpresa(value)}
+              disabled={isSelectingEmpresa || isLoadingEmpresas}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecione uma empresa" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {empresasDisponiveis && empresasDisponiveis.map((empresa) => (
+                    <SelectItem key={empresa.id} value={empresa.id}>
+                      {empresa.nome}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
