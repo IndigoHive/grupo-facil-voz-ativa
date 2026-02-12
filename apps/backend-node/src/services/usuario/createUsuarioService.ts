@@ -17,6 +17,10 @@ export async function createUsuarioService(
   authenticatedUsuario: UsuarioResult,
   command: CreateUsuarioCommand
 ): Promise<void> {
+  if (authenticatedUsuario.empresa?.isAdmin !== true) {
+    throw new BadRequestError('Apenas administradores da empresa podem criar novos usuários')
+  }
+
   const { email, isAdmin } = validateOrThrow<CreateUsuarioCommand>(commandSchema, command)
 
   const existingUser = await prisma.usuario.findFirst({
