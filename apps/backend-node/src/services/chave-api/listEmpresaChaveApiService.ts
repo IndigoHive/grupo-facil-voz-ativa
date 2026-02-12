@@ -6,7 +6,7 @@ export async function listEmpresaChaveApiService (
 ): Promise<EmpresaChaveApi[]> {
   return await prisma.empresaChaveApi.findMany({
     where: {
-      empresa_id: authenticatedUsuario.empresa_id!
+      empresa_id: authenticatedUsuario.empresa!.id
     }
   })
 }

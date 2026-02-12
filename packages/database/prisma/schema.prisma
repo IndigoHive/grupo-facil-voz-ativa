@@ -17,15 +17,22 @@ model Usuario {
   id                String   @id @default(uuid())
   email             String   @unique
   senha             String?
-  is_admin          Boolean  @default(false)
   is_superadmin     Boolean  @default(false)
-  is_admin_empresa  Boolean  @default(false)
-  empresa           Empresa? @relation(fields: [empresa_id], references: [id])
-  empresa_id        String?
   data_criacao      DateTime @default(now())
   ligacoes          Ligacao[]
   gatilhos          Gatilho[]
   empresaChaveApis  EmpresaChaveApi[]
+  usuarioEmpresas UsuarioEmpresa[]
+}
+
+model UsuarioEmpresa {
+  id String @id @default(uuid())
+  usuario_id String
+  empresa_id String
+  is_admin Boolean @default(false)
+  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  empresa Empresa @relation(fields: [empresa_id], references: [id])
+  @@unique([usuario_id, empresa_id])
 }
 
 model Empresa {
@@ -34,10 +41,10 @@ model Empresa {
   slug      String @unique
   status    Boolean @default(true)
   data_criacao DateTime @default(now())
-  usuarios  Usuario[]
   ligacoes  Ligacao[]
   gatilhos  Gatilho[]
   empresaChaveApis EmpresaChaveApi[]
+  usuarioEmpresas UsuarioEmpresa[]
 }
 
 model EmpresaChaveApi {

@@ -6,20 +6,20 @@ export async function cleanUsuarioSenhaService (
   authenticatedUsuario: UsuarioResult,
   usuarioId: string
 ) {
-  const usuario = await prisma.usuario.findFirst({
+  const usuarioEmpresa = await prisma.usuarioEmpresa.findFirst({
     where: {
-      empresa_id: authenticatedUsuario.empresa_id,
-      id: usuarioId
+      usuario_id: usuarioId,
+      empresa_id: authenticatedUsuario.empresa!.id
     }
   })
 
-  if (!usuario) {
+  if (!usuarioEmpresa) {
     throw new NotFoundError('Usuário não encontrado')
   }
 
   await prisma.usuario.update({
     where: {
-      id: usuario?.id
+      id: usuarioEmpresa?.usuario_id
     },
     data: {
       senha: null

@@ -33,12 +33,19 @@ export async function createUsuarioService(
   }
 
   const senhaHash = await hashPassword(senha);
-  await prisma.usuario.create({
+
+  const usuario = await prisma.usuario.create({
     data: {
       email,
-      senha: senhaHash,
-      is_admin: isAdmin,
-      empresa_id: authenticatedUsuario.empresa_id
+      senha: senhaHash
+    }
+  })
+
+  await prisma.usuarioEmpresa.create({
+    data: {
+      usuario_id: usuario.id,
+      empresa_id: authenticatedUsuario.empresa!.id,
+      is_admin: isAdmin
     }
   })
 }

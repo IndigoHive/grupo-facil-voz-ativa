@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import { getLigacoesPageService } from '../services/ligacao/getLigacoesPageService'
+import { validateEmpresaAtualMiddleware } from '../middleware/validateEmpresaAtualMiddleware'
 
 export const ligacoesRouter = Router()
 
-ligacoesRouter.get('/', async (req, res) => {
+ligacoesRouter.get('/', validateEmpresaAtualMiddleware, async (req, res) => {
   const page = Number(req.query.page) || 1
   const pageSize = Number(req.query.pageSize) || 10
 

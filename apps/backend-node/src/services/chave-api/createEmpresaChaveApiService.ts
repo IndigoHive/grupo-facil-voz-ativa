@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { validateOrThrow } from '../../lib/validateOrThrow'
 import crypto from 'crypto'
 import { EmpresaChaveApi, prisma } from '@voz-ativa/database'
+import { BadRequestError } from '../../lib/errors'
 
 const commandSchema = yup.object({
   nome: yup.string().required()
@@ -25,7 +26,7 @@ export async function createEmpresaChaveApiService (
   return await prisma.empresaChaveApi.create({
     data: {
       usuario_id: authenticatedUsuario.id,
-      empresa_id: authenticatedUsuario.empresa_id!,
+      empresa_id: authenticatedUsuario.empresa!.id,
       chave_hash: chaveHash,
       chave_ultimos_digitos: chaveUltimosDigitos,
     }
