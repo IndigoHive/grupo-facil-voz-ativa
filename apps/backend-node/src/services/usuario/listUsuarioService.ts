@@ -24,9 +24,10 @@ export async function listUsuarioService(authenticatedUsuario: UsuarioResult): P
     email: usuario.email,
     id: usuario.id,
     isSuperAdmin: usuario.is_superadmin,
-    empresas: usuario.usuarioEmpresas.map(ue => ({
-      id: ue.empresa_id,
-      slug: ue.empresa.slug
-    }))
+    empresa: usuario.usuarioEmpresas[0]?.empresa ? {
+      id: usuario.usuarioEmpresas[0].empresa.id,
+      slug: usuario.usuarioEmpresas[0].empresa.slug,
+      isAdmin: usuario.usuarioEmpresas[0].is_admin
+    } : undefined
   }))
 }

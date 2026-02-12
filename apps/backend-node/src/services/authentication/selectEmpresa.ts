@@ -43,7 +43,8 @@ export async function selectEmpresa (
     ...rest,
     empresa: {
       id: empresaExists.id,
-      slug: empresaExists.slug
+      slug: empresaExists.slug,
+      isAdmin: usuarioEmpresa.is_admin
     }
   }
 }

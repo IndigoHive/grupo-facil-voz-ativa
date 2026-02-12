@@ -6,5 +6,6 @@ export type UsuarioResult = {
   empresa?: {
     id: string
     slug: string
+    isAdmin: boolean
   }
 }
