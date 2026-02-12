@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate } from 'react-router'
 import { Button } from '../../components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/card'
 import { FieldGroup, Field, FieldLabel } from '../../components/ui/field'
@@ -18,9 +18,6 @@ const schema = yup.object({
 export function LoginPage () {
   const navigate = useNavigate()
   const authentication = useAuthentication()
-  const { empresaSlug: paramEmpresaSlug } = useParams<{ empresaSlug: string }>()
-
-  const empresaSlug = paramEmpresaSlug
 
   const {
     mutateAsync: login
@@ -33,13 +30,10 @@ export function LoginPage () {
     },
     validationSchema: schema,
     onSubmit: async (values) => {
-      if (!empresaSlug) return
 
-      const result = await login({...values, empresaSlug})
+      const result = await login({...values})
 
       authentication.onAuthenticatedUsuarioChange?.(result)
-
-      localStorage.setItem('empresaSlug', empresaSlug)
     }
   })
 
@@ -61,7 +55,7 @@ export function LoginPage () {
           <CardHeader>
             <CardTitle>Voz Ativa</CardTitle>
             <CardDescription>
-              {empresaSlug}
+              Acesse sua conta
             </CardDescription>
           </CardHeader>
           <CardContent>
