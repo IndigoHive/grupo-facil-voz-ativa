@@ -11,36 +11,12 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '../../components/ui/input'
 import { Label } from '../../components/ui/label'
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, ShieldBan } from 'lucide-react'
 import type { CreateUsuarioCommand } from '../../client/clients/usuarios/usuarios-types'
+import { useRevogarUsuarioAcesso } from '../../hooks/fetch/use-revogar-usuario-acesso'
+import { Tooltip, TooltipTrigger, TooltipContent } from '../../components/ui/tooltip'
 
 const columnHelper = createColumnHelper<UsuarioResult>()
-
-const columns = [
-  columnHelper.accessor('email', {
-    header: () => 'Email',
-  }),
-  columnHelper.accessor('dataCriacao', {
-    header: () => 'Data de Criação',
-    cell: info => <FormattedDate date={info.getValue()} />
-  }),
-  columnHelper.accessor(row => row.empresa?.isAdmin, {
-    id: 'isAdmin',
-    header: () => 'Admin',
-    cell: info => {
-      const isAdmin = info.getValue()
-      return <Badge variant={isAdmin ? 'default' : 'destructive'}>{isAdmin ? 'Sim' : 'Não'}</Badge>
-    }
-  }),
-  columnHelper.accessor(row => row.empresa?.isAtivo, {
-    id: 'isAtivo',
-    header: () => 'Ativo',
-    cell: info => {
-      const isAtivo = info.getValue()
-      return <Badge variant={isAtivo ? 'default' : 'destructive'}>{isAtivo ? 'Sim' : 'Não'}</Badge>
-    }
-  })
-]
 
 export function UsuariosPage () {
   const [open, setOpen] = useState(false)
@@ -58,6 +34,11 @@ export function UsuariosPage () {
     isPending: isCreatingUsuario
   } = useCreateUsuario()
 
+  const {
+    mutate: revogarAcesso,
+    isPending: isRevogarAcesso
+  } = useRevogarUsuarioAcesso()
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -74,6 +55,57 @@ export function UsuariosPage () {
       }
     })
   }
+
+  const columns = [
+    columnHelper.accessor('email', {
+      header: () => 'Email',
+    }),
+    columnHelper.accessor('dataCriacao', {
+      header: () => 'Data de Criação',
+      cell: info => <FormattedDate date={info.getValue()} />
+    }),
+    columnHelper.accessor(row => row.empresa?.isAdmin, {
+      id: 'isAdmin',
+      header: () => 'Admin',
+      cell: info => {
+        const isAdmin = info.getValue()
+        return <Badge variant={isAdmin ? 'default' : 'destructive'}>{isAdmin ? 'Sim' : 'Não'}</Badge>
+      }
+    }),
+    columnHelper.accessor(row => row.empresa?.isAtivo, {
+      id: 'isAtivo',
+      header: () => 'Ativo',
+      cell: info => {
+        const isAtivo = info.getValue()
+        return <Badge variant={isAtivo ? 'default' : 'destructive'}>{isAtivo ? 'Sim' : 'Não'}</Badge>
+      }
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: () => 'Ações',
+      cell: info => {
+        const usuarioId = info.row.original.id
+        return (
+          <div className="flex gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="secondary" size="icon"
+                  onClick={() => revogarAcesso(usuarioId)}
+                  disabled={isRevogarAcesso || info.row.original.empresa?.isAtivo === false}
+                >
+                  <ShieldBan />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Revogar acesso</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        )
+      }
+    })
+  ]
 
   return (
     <div className='flex flex-col gap-4'>
