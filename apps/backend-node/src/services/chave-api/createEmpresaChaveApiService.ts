@@ -12,23 +12,36 @@ const commandSchema = yup.object({
 
 type CreateChaveApiCommand = yup.InferType<typeof commandSchema>
 
+type CreateChaveApiResult = {
+  chaveApi: string
+}
+
 export async function createEmpresaChaveApiService (
   authenticatedUsuario: UsuarioResult,
   command: CreateChaveApiCommand
-): Promise<EmpresaChaveApi> {
+): Promise<CreateChaveApiResult> {
   const { nome } = validateOrThrow<CreateChaveApiCommand>(commandSchema, command)
 
-  // Gera um hash seguro de 32 bytes em hexadecimal
-  const chaveHash = crypto.randomBytes(32).toString('hex')
+  const chaveApiPlainText = crypto.randomBytes(32).toString('hex')
 
-  const chaveUltimosDigitos = chaveHash.slice(-4)
+  const chaveHash = crypto
+    .createHash('sha256')
+    .update(chaveApiPlainText)
+    .digest('hex')
 
-  return await prisma.empresaChaveApi.create({
+  const chaveUltimosDigitos = chaveApiPlainText.slice(-4)
+
+  await prisma.empresaChaveApi.create({
     data: {
       usuario_id: authenticatedUsuario.id,
       empresa_id: authenticatedUsuario.empresa!.id,
       chave_hash: chaveHash,
       chave_ultimos_digitos: chaveUltimosDigitos,
+      nome
     }
   })
+
+  return {
+    chaveApi: chaveApiPlainText
+  }
 }
