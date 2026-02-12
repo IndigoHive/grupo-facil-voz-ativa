@@ -3,6 +3,7 @@ import { AuthenticationGuard } from './components/AuthenticationGuard'
 import { Layout } from './layout'
 import { LoginPage } from './pages/LoginPage'
 import { SelecionarEmpresaPage } from './pages/SelecionarEmpresaPage'
+import { UsuariosPage } from './pages/Usuarios'
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,12 @@ export const router = createBrowserRouter([
       <AuthenticationGuard signInPath={'/login'} requiresEmpresa={true}>
         <Layout />
       </AuthenticationGuard>
-    )
+    ),
+    children: [
+      {
+        path: 'usuarios',
+        element: <UsuariosPage />
+      }
+    ]
   }
 ])
