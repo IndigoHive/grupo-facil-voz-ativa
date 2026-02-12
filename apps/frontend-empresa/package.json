@@ -14,6 +14,7 @@
     "@ladle/react": "^5.1.1",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-table": "^8.21.3",
     "axios": "^1.13.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
