@@ -4,18 +4,28 @@ import { UsuarioResult } from '../../lib/types/usuario-result'
 export async function getEmpresasDisponiveis(
   authenticatedUsuario: UsuarioResult
 ): Promise<Empresa[]> {
-  const empresas = await prisma.empresa.findMany({
-    include: {
-      usuarioEmpresas: true
-    },
-    where: {
-      usuarioEmpresas: {
-        every: {
-          usuario_id: authenticatedUsuario.id
-        }
+
+  if (authenticatedUsuario.isSuperAdmin) {
+    return await prisma.empresa.findMany({
+      where: {
+        status: true
+      },
+      orderBy: {
+        nome: 'asc'
       }
-    }
+    })
+  }
+
+  const usuarioEmpresas = await prisma.usuarioEmpresa.findMany({
+    where: {
+      usuario_id: authenticatedUsuario.id,
+      is_ativo: true
+    },
+    include: {
+      empresa: true
+    },
+    distinct: ['empresa_id']
   })
 
-  return empresas
+  return usuarioEmpresas.map(usuarioEmpresa => usuarioEmpresa.empresa)
 }

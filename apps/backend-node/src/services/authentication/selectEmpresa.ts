@@ -33,7 +33,15 @@ export async function selectEmpresa (
     }
   })
 
-  if (!usuarioEmpresa) {
+  var isAdmin:boolean = usuarioEmpresa?.is_admin ?? false
+  var isAtivo: boolean = usuarioEmpresa?.is_ativo ?? false
+
+  if (authenticatedUsuario.isSuperAdmin) {
+    isAdmin = true
+    isAtivo = true
+  }
+
+  if (!usuarioEmpresa && !authenticatedUsuario.isSuperAdmin) {
     throw new BadRequestError(`Usuário não pertence à empresa com id "${empresaId}"`)
   }
 
@@ -44,8 +52,8 @@ export async function selectEmpresa (
     empresa: {
       id: empresaExists.id,
       slug: empresaExists.slug,
-      isAdmin: usuarioEmpresa.is_admin,
-      isAtivo: usuarioEmpresa.is_ativo
+      isAdmin,
+      isAtivo
     }
   }
 }
