@@ -11,11 +11,11 @@ export function Layout (props: LayoutProps) {
   return (
     <SidebarProvider>
       <LayoutSidebar />
-      <main className="w-full">
         <SidebarTrigger />
-        {children}
-        <Outlet />
-      </main>
+        <main className="w-full max-w-7xl mx-auto py-4">
+          {children}
+          <Outlet />
+        </main>
     </SidebarProvider>
   )
 }
