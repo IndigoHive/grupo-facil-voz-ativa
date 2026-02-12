@@ -39,14 +39,42 @@ export function LoginPage () {
 
   useEffect(
     () => {
-      console.log('authentication.authenticatedUsuario', authentication.authenticatedUsuario)
+      // Aguarda o carregamento terminar
+      if (authentication.loading) {
+        return
+      }
 
+      // Se usuário está autenticado, redireciona
       if (authentication.authenticatedUsuario) {
-        navigate(`/${authentication.authenticatedUsuario.empresa_slug}`)
+        // Se já tem empresa selecionada, vai direto para a página da empresa
+        if (authentication.authenticatedUsuario.empresa) {
+          navigate(`/${authentication.authenticatedUsuario.empresa.slug}`, { replace: true })
+        } else {
+          // Senão, vai para seleção de empresa
+          navigate('/', { replace: true })
+        }
       }
     },
-    [authentication.authenticatedUsuario, navigate]
+    [authentication.loading, authentication.authenticatedUsuario, navigate]
   )
+
+  // Mostra loading enquanto verifica autenticação
+  if (authentication.loading) {
+    return (
+      <div className='h-screen w-full flex items-center justify-center'>
+        <p className="text-muted-foreground">Carregando...</p>
+      </div>
+    )
+  }
+
+  // Se já está autenticado, mostra loading enquanto redireciona
+  if (authentication.authenticatedUsuario) {
+    return (
+      <div className='h-screen w-full flex items-center justify-center'>
+        <p className="text-muted-foreground">Redirecionando...</p>
+      </div>
+    )
+  }
 
   return (
     <div className='h-screen w-full flex items-center justify-center'>
