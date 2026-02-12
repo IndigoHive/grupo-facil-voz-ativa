@@ -44,7 +44,8 @@ export async function selectEmpresa (
     empresa: {
       id: empresaExists.id,
       slug: empresaExists.slug,
-      isAdmin: usuarioEmpresa.is_admin
+      isAdmin: usuarioEmpresa.is_admin,
+      isAtivo: usuarioEmpresa.is_ativo
     }
   }
 }

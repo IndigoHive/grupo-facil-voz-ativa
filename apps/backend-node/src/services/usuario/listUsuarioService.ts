@@ -27,7 +27,8 @@ export async function listUsuarioService(authenticatedUsuario: UsuarioResult): P
     empresa: usuario.usuarioEmpresas[0]?.empresa ? {
       id: usuario.usuarioEmpresas[0].empresa.id,
       slug: usuario.usuarioEmpresas[0].empresa.slug,
-      isAdmin: usuario.usuarioEmpresas[0].is_admin
+      isAdmin: usuario.usuarioEmpresas[0].is_admin,
+      isAtivo: usuario.usuarioEmpresas[0].is_ativo
     } : undefined
   }))
 }
