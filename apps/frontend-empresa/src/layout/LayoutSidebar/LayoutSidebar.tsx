@@ -14,10 +14,9 @@ import { Link, useLocation } from "react-router"
 import {
   House,
   ShieldUser,
-  Key,
   User,
-  ShieldCheck,
-  Link2
+  Send,
+  KeyRound
 } from "lucide-react"
 import type { ReactNode } from "react"
 import { useAuthentication } from '../../hooks/use-authentication'
@@ -37,34 +36,19 @@ type MenuItem = {
 
 const MENU_ITEMS: MenuItem[] = [
   {
-    to: "/",
-    label: "Início",
-    icon: <House />,
-  },
-  {
     label: "Admin",
     icon: <ShieldUser />,
     items: [
       {
-        to: "/acessos",
-        label: "Acessos",
+        to: "/gatilhos",
+        label: "Gatilhos",
+        icon: <Send />,
+      },
+      {
+        to: "/usuarios",
+        label: "Usuários",
         icon: <User />,
       },
-      {
-        to: "/chaves-de-api",
-        label: "Chaves de API",
-        icon: <Key />,
-      },
-      {
-        to: "/consentimentos",
-        label: "Consentimentos",
-        icon: <ShieldCheck />,
-      },
-      {
-        to: "/vinculo",
-        label: "Vínculo",
-        icon: <Link2 />,
-      }
     ],
   },
 ]
@@ -84,6 +68,8 @@ export function LayoutSidebar() {
     authentication.refreshAuthenticatedUsuario?.()
   }
 
+  const empresaSlug = authentication.authenticatedUsuario?.empresa?.slug
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -96,6 +82,32 @@ export function LayoutSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={location.pathname === `/${empresaSlug}`}
+              >
+                <Link to={`/${empresaSlug}`}>
+                  <House />
+                  Inicio
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={location.pathname === `/${empresaSlug}/chaves-api`}
+              >
+                <Link to={`/${empresaSlug}/chaves-api`}>
+                  <KeyRound />
+                  Chaves API
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
         {MENU_ITEMS.map((item) => (
           <SidebarGroup key={item.label}>
             <SidebarGroupContent>
@@ -107,9 +119,9 @@ export function LayoutSidebar() {
                       <SidebarMenuItem key={subItem.to}>
                         <SidebarMenuButton
                           asChild
-                          isActive={location.pathname === subItem.to}
+                          isActive={location.pathname.includes(subItem.to)}
                         >
-                          <Link to={subItem.to}>
+                          <Link to={`/${empresaSlug}/${subItem.to}`}>
                             {subItem.icon}
                             {subItem.label}
                           </Link>
