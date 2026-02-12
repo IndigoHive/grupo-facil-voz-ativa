@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { createUsuarioService } from '../services/usuario/createUsuarioService'
 import { listUsuarioService } from '../services/usuario/listUsuarioService'
 import { validateEmpresaAtualMiddleware } from '../middleware/validateEmpresaAtualMiddleware'
+import { revokeUsuarioService } from '../services/usuario/revokeUsuarioService'
 
 export const usuarioRouter = Router();
 
@@ -15,4 +16,12 @@ usuarioRouter.get("/", validateEmpresaAtualMiddleware, async (req, res) => {
   const usuarios = await listUsuarioService(req.user!);
 
   return res.status(200).json(usuarios);
+});
+
+usuarioRouter.post("/:id/revogar-acesso", validateEmpresaAtualMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  await revokeUsuarioService(req.user!, id as string)
+
+  return res.status(200).json({ message: "Acesso revogado com sucesso" })
 });

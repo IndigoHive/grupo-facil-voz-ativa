@@ -16,4 +16,8 @@ export class UsuariosClient {
   async list (): Promise<UsuarioResult[]> {
     return (await this.axios.get('/usuarios')).data
   }
+
+  async revogarAcesso (usuarioId: string): Promise<void> {
+    await this.axios.post(`/usuarios/${usuarioId}/revogar-acesso`)
+  }
 }
