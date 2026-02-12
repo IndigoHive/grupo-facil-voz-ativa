@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios'
 import type { Empresa, LoginCommand, ResetUsuarioSenhaCommand, SelectEmpresaCommand } from './authentication-types'
-import type { AuthenticatedUsuario } from '../../types/authenticated-usuario'
+import type { UsuarioResult } from '../../types/usuario-result'
 
 export class AuthenticationClient {
   private axios: AxiosInstance
@@ -9,7 +9,7 @@ export class AuthenticationClient {
     this.axios = axios
   }
 
-  async login (data: LoginCommand): Promise<AuthenticatedUsuario> {
+  async login (data: LoginCommand): Promise<UsuarioResult> {
     return (await this.axios.post('/auth/login', data)).data
   }
 
@@ -17,7 +17,7 @@ export class AuthenticationClient {
     return (await this.axios.post('/auth/logout')).data
   }
 
-  async selectEmpresa (command: SelectEmpresaCommand): Promise<AuthenticatedUsuario> {
+  async selectEmpresa (command: SelectEmpresaCommand): Promise<UsuarioResult> {
     return (await this.axios.post('/auth/select-empresa', command)).data
   }
 
@@ -25,7 +25,7 @@ export class AuthenticationClient {
     return (await this.axios.get('/auth/empresas')).data
   }
 
-  async me(): Promise<AuthenticatedUsuario> {
+  async me(): Promise<UsuarioResult> {
     return (await this.axios.get('/auth/me')).data
   }
 

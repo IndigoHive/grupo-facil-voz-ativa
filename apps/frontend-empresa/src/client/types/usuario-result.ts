@@ -1,4 +1,4 @@
-export type AuthenticatedUsuario = {
+export type UsuarioResult = {
   id: string
   email: string
   dataCriacao: string
@@ -6,5 +6,6 @@ export type AuthenticatedUsuario = {
   empresa?: {
     id: string
     slug: string
+    isAdmin: boolean
   }
 }

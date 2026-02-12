@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
 import { AuthenticationContext } from './authentication-context'
 import { useAuthenticationMe } from '../../hooks/fetch/use-authentication-me'
-import type { AuthenticatedUsuario } from '../../client/types/authenticated-usuario'
+import type { UsuarioResult } from '../../client/types/usuario-result'
 
 export type AuthenticationProviderProps = PropsWithChildren
 
@@ -13,7 +13,7 @@ export function AuthenticationProvider (props: PropsWithChildren) {
 
   const getMe = useAuthenticationMe()
 
-  const handleChange = (usuario: AuthenticatedUsuario | undefined) => {
+  const handleChange = (usuario: UsuarioResult | undefined) => {
     // Atualiza o cache do React Query
     queryClient.setQueryData(['auth.getMe'], usuario)
   }

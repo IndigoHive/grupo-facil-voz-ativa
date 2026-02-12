@@ -1,9 +1,9 @@
 import { createContext } from 'react'
-import type { AuthenticatedUsuario } from '../../client/types/authenticated-usuario'
+import type { UsuarioResult } from '../../client/types/usuario-result'
 
 export type AuthenticationContextType = {
-  authenticatedUsuario?: AuthenticatedUsuario
-  onAuthenticatedUsuarioChange?: (user: AuthenticatedUsuario) => void
+  authenticatedUsuario?: UsuarioResult
+  onAuthenticatedUsuarioChange?: (user: UsuarioResult) => void
   refreshAuthenticatedUsuario?: () => void
   loading?: boolean
   error?: unknown

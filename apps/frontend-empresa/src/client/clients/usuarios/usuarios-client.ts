@@ -1,5 +1,6 @@
 import type { AxiosInstance } from 'axios'
-import type { CreateUsuarioCommand, Usuario, CreateUsuarioResponse } from './usuarios-types'
+import type { CreateUsuarioCommand, CreateUsuarioResponse } from './usuarios-types'
+import type { UsuarioResult } from '../../types/usuario-result'
 
 export class UsuariosClient {
   private axios: AxiosInstance
@@ -12,7 +13,7 @@ export class UsuariosClient {
     return (await this.axios.post('/usuarios', data)).data
   }
 
-  async list (): Promise<Usuario[]> {
+  async list (): Promise<UsuarioResult[]> {
     return (await this.axios.get('/usuarios')).data
   }
 }
