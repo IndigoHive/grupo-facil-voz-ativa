@@ -56,6 +56,7 @@ model EmpresaChaveApi {
   data_criacao DateTime @default(now())
   data_revogacao DateTime?
   usuario_id String
+  nome String?
   usuario Usuario @relation(fields: [usuario_id], references: [id])
   empresa Empresa @relation(fields: [empresa_id], references: [id])
 }
