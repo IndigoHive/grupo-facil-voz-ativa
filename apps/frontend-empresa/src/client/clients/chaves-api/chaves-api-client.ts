@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios'
-import type { ChaveApi, CreateChaveApiCommand } from './chaves-api-types'
+import type { ChaveApi, CreateChaveApiCommand, CreateChaveApiResult } from './chaves-api-types'
 
 export class ChavesApiClient {
   private axios: AxiosInstance
@@ -8,7 +8,7 @@ export class ChavesApiClient {
     this.axios = axios
   }
 
-  async create (data: CreateChaveApiCommand): Promise<ChaveApi> {
+  async create (data: CreateChaveApiCommand): Promise<CreateChaveApiResult> {
     return (await this.axios.post('/chave-api', data)).data
   }
 

@@ -10,4 +10,9 @@ export type ChaveApi = {
   data_criacao: string
   data_revogacao: string | null
   usuario_id: string
+  nome?: string
+}
+
+export type CreateChaveApiResult = {
+  chaveApi: string
 }
