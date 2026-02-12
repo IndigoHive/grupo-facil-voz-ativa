@@ -5,6 +5,7 @@ import { LoginPage } from './pages/LoginPage'
 import { SelecionarEmpresaPage } from './pages/SelecionarEmpresaPage'
 import { UsuariosPage } from './pages/Usuarios'
 import { ChavesApiPage } from './pages/ChavesApiPage'
+import { GatilhosPage } from './pages/GatilhosPage'
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: 'chaves-api',
         element: <ChavesApiPage />
+      },
+      {
+        path: 'gatilhos',
+        element: <GatilhosPage />
       }
     ]
   }
