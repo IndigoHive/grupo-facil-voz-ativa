@@ -4,6 +4,7 @@ import { Layout } from './layout'
 import { LoginPage } from './pages/LoginPage'
 import { SelecionarEmpresaPage } from './pages/SelecionarEmpresaPage'
 import { UsuariosPage } from './pages/Usuarios'
+import { ChavesApiPage } from './pages/ChavesApiPage'
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: 'usuarios',
         element: <UsuariosPage />
+      },
+      {
+        path: 'chaves-api',
+        element: <ChavesApiPage />
       }
     ]
   }
