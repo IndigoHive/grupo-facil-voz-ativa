@@ -31,6 +31,14 @@ const columns = [
       const isAdmin = info.getValue()
       return <Badge variant={isAdmin ? 'default' : 'destructive'}>{isAdmin ? 'Sim' : 'Não'}</Badge>
     }
+  }),
+  columnHelper.accessor(row => row.empresa?.isAtivo, {
+    id: 'isAtivo',
+    header: () => 'Ativo',
+    cell: info => {
+      const isAtivo = info.getValue()
+      return <Badge variant={isAtivo ? 'default' : 'destructive'}>{isAtivo ? 'Sim' : 'Não'}</Badge>
+    }
   })
 ]
 

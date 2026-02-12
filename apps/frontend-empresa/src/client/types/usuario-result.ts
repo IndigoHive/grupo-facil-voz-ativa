@@ -7,5 +7,6 @@ export type UsuarioResult = {
     id: string
     slug: string
     isAdmin: boolean
+    isAtivo: boolean
   }
 }

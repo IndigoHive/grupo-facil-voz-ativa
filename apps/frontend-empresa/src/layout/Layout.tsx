@@ -12,7 +12,7 @@ export function Layout (props: LayoutProps) {
     <SidebarProvider>
       <LayoutSidebar />
         <SidebarTrigger />
-        <main className="w-full max-w-7xl mx-auto py-4">
+        <main className="w-full max-w-7xl mx-auto py-4 px-4">
           {children}
           <Outlet />
         </main>
