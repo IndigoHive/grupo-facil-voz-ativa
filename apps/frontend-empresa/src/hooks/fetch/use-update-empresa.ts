@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useClient } from '../use-client'
 import type { UpdateEmpresaCommand } from '../../client/clients/admin/admin-types'
+import { toast } from 'sonner'
 
 export function useUpdateEmpresa() {
   const client = useClient()
@@ -12,6 +13,10 @@ export function useUpdateEmpresa() {
       await client.admin.updateEmpresa(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin.listEmpresas'] })
+      toast.success('Empresa atualizada com sucesso')
+    },
+    onError: () => {
+      toast.error('Erro ao atualizar empresa')
     }
   })
 }

@@ -1,21 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useClient } from '../use-client'
-import type { CreateUsuarioCommand } from '../../client/clients/usuarios/usuarios-types'
 import { toast } from 'sonner'
 
-export function useCreateUsuario() {
+export function useRevogarUsuarioAcesso() {
   const client = useClient()
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationKey: ['usuarios.create'],
-    mutationFn: async (command: CreateUsuarioCommand) => await client.usuarios.create(command),
+    mutationKey: ['revogar-usuario-acesso'],
+    mutationFn: async (usuarioId: string) => await client.usuarios.revogarAcesso(usuarioId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['usuarios.list'] })
-      toast.success('Usuário criado com sucesso')
+      toast.success('Acesso do usuário revogado com sucesso')
     },
     onError: () => {
-      toast.error('Erro ao criar usuário')
+      toast.error('Erro ao revogar acesso do usuário')
     }
   })
 }
