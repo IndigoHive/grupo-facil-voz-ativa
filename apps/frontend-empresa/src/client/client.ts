@@ -1,5 +1,6 @@
 import axios, { type AxiosInstance } from 'axios'
 import { AuthenticationClient } from './clients/authentication/authentication-client'
+import { ChavesApiClient } from './clients/chaves-api/chaves-api-client'
 
 export type ClientOptions = {
   baseURL?: string
@@ -14,6 +15,7 @@ export class Client {
   private axios: AxiosInstance
 
   authentication: AuthenticationClient
+  chavesApi: ChavesApiClient
 
   constructor (options: ClientOptions = {}) {
     this.axios = axios.create({
@@ -22,6 +24,7 @@ export class Client {
     })
 
     this.authentication = new AuthenticationClient(this.axios)
+    this.chavesApi = new ChavesApiClient(this.axios)
   }
 
   static isBadRequest (error: unknown): boolean {
