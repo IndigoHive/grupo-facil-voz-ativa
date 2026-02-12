@@ -7,7 +7,6 @@ import { prisma } from '@voz-ativa/database'
 
 const commandSchema = yup.object({
   email: yup.string().email().required(),
-  senha: yup.string().required(),
   isAdmin: yup.boolean().optional()
 })
 
@@ -18,7 +17,7 @@ export async function createUsuarioService(
   authenticatedUsuario: UsuarioResult,
   command: CreateUsuarioCommand
 ): Promise<void> {
-  const { email, senha, isAdmin } = validateOrThrow<CreateUsuarioCommand>(commandSchema, command)
+  const { email, isAdmin } = validateOrThrow<CreateUsuarioCommand>(commandSchema, command)
 
   const existingUser = await prisma.usuario.findFirst({
     where: {
@@ -32,7 +31,7 @@ export async function createUsuarioService(
     throw new BadRequestError(`Usuário já existe com o email "${email}"`)
   }
 
-  const senhaHash = await hashPassword(senha);
+  const senhaHash = await hashPassword(email);
 
   const usuario = await prisma.usuario.create({
     data: {
