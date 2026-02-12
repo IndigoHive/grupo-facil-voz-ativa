@@ -51,7 +51,7 @@ export function ChavesApiPage () {
       onSuccess: (data) => {
         setOpen(false)
         setNome('')
-        setCreatedApiKey(data.id)
+        setCreatedApiKey(data.chaveApi)
       }
     })
   }
@@ -63,6 +63,9 @@ export function ChavesApiPage () {
   }
 
   const columns = [
+    columnHelper.accessor('nome', {
+      header: () => 'Nome'
+    }),
     columnHelper.accessor('chave_ultimos_digitos', {
       header: () => 'Últimos Dígitos',
       cell: info => <span className="font-mono">****{info.getValue()}</span>
