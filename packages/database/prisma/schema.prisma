@@ -30,6 +30,7 @@ model UsuarioEmpresa {
   usuario_id String
   empresa_id String
   is_admin Boolean @default(false)
+  is_ativo Boolean @default(true)
   usuario Usuario @relation(fields: [usuario_id], references: [id])
   empresa Empresa @relation(fields: [empresa_id], references: [id])
   @@unique([usuario_id, empresa_id])
