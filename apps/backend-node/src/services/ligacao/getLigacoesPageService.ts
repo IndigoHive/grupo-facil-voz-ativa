@@ -19,12 +19,12 @@ export async function getLigacoesPageService (
       orderBy: { data_criacao: 'desc' },
       where: {
         // TO-DO: filtros
-        empresa_id: authenticatedUsuario.empresa_id || undefined,
+        empresa_id: authenticatedUsuario.empresa!.id || undefined,
       },
     }),
     prisma.ligacao.count({
       where: {
-        empresa_id: authenticatedUsuario.empresa_id || undefined,
+        empresa_id: authenticatedUsuario.empresa!.id || undefined,
       },
     })
   ])

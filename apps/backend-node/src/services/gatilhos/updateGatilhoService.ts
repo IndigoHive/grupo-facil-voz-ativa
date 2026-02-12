@@ -19,7 +19,7 @@ export async function updateGatilhoService(
   const result = await prisma.gatilho.update({
     where: {
       id,
-      empresa_id: authenticatedUsuario.empresa_id
+      empresa_id: authenticatedUsuario.empresa!.id
     },
     data: {
       ...validateValues

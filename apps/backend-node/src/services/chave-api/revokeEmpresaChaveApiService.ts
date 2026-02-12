@@ -9,7 +9,8 @@ export async function revokeEmpresaChaveApiService(
   await prisma.empresaChaveApi.update({
     where: {
       id,
-      usuario_id: authenticatedUsuario.id
+      usuario_id: authenticatedUsuario.id,
+      empresa_id: authenticatedUsuario.empresa!.id
     },
     data: {
       data_revogacao: new Date()

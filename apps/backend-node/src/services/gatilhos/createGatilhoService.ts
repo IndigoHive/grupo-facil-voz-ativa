@@ -2,6 +2,7 @@ import * as yup from 'yup'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 import { Gatilho, prisma } from '@voz-ativa/database'
 import { validateOrThrow } from '../../lib/validateOrThrow'
+import { BadRequestError } from '../../lib/errors'
 
 const commandSchema = yup.object({
   descricao: yup.string().required('A descrição é obrigatória'),
@@ -19,7 +20,7 @@ export async function createGatilhoService(
 
   const result = await prisma.gatilho.create({
     data: {
-      empresa_id: authenticatedUsuario.empresa_id,
+      empresa_id: authenticatedUsuario.empresa!.id,
       usuario_id: authenticatedUsuario.id,
       ...validateValues
     }

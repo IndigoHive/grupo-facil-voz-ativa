@@ -8,26 +8,13 @@ import { prisma } from '@voz-ativa/database'
 
 const commandSchema = yup.object({
   email: yup.string().email().required(),
-  senha: yup.string().required(),
-  empresaSlug: yup.string().required()
+  senha: yup.string().required()
 })
 
 export type LoginCommand = yup.InferType<typeof commandSchema>
 
 export async function loginService(command: LoginCommand): Promise<UsuarioResult> {
-  const { email, senha, empresaSlug } = validateOrThrow<LoginCommand>(commandSchema, command);
-
-  const empresa = await prisma.empresa.findFirst({
-    where: {
-      slug: { //TO-DO: implementar slug
-        equals: empresaSlug
-      }
-    }
-  })
-
-  if (!empresa) {
-    throw new NotFoundError('Empresa não encontrada');
-  }
+  const { email, senha } = validateOrThrow<LoginCommand>(commandSchema, command);
 
   var user = await prisma.usuario.findFirst({
     where: {
@@ -51,18 +38,10 @@ export async function loginService(command: LoginCommand): Promise<UsuarioResult
     throw new BadRequestError('Senha inválida');
   }
 
-  if (user.is_superadmin) {
-    user.empresa_id = empresa.id
-  }
-
   return {
     id: user.id,
-    empresa_slug: empresa.slug,
-    data_criacao: user.data_criacao,
+    isSuperAdmin: user.is_superadmin,
     email: user.email,
-    empresa_id: user.empresa_id,
-    is_admin: user.is_admin,
-    is_admin_empresa: user.is_admin_empresa,
-    is_superadmin: user.is_superadmin,
+    dataCriacao: user.data_criacao
   }
 }
