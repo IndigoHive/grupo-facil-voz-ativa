@@ -6,13 +6,13 @@ import { validateEmpresaAtualMiddleware } from '../middleware/validateEmpresaAtu
 export const usuarioRouter = Router();
 
 usuarioRouter.post("/", validateEmpresaAtualMiddleware, async (req, res) => {
-  await createUsuarioService(req.user, req.body);
+  await createUsuarioService(req.user!, req.body);
 
   return res.status(201).json({ message: "Usuário criado com sucesso" });
 })
 
 usuarioRouter.get("/", validateEmpresaAtualMiddleware, async (req, res) => {
-  const usuarios = await listUsuarioService(req.user);
+  const usuarios = await listUsuarioService(req.user!);
 
   return res.status(200).json(usuarios);
 });

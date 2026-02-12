@@ -25,6 +25,8 @@ adminRouter.patch('/empresas/:id', superAdminMiddleware, async (req, res) => {
 
 adminRouter.post('/usuarios/:id/limpar-senha', superAdminMiddleware, async (req, res) => {
   const { id } = req.params as { id: string };
-  await cleanUsuarioSenhaService(req.user, id);
+  await cleanUsuarioSenhaService(req.user!, id);
   res.status(200).json({ message: 'Senha do usuário limpa com sucesso' });
 });
+
+
