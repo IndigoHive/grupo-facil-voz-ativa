@@ -16,7 +16,8 @@ import {
   ShieldUser,
   User,
   Send,
-  KeyRound
+  KeyRound,
+  LogOut
 } from "lucide-react"
 import type { ReactNode } from "react"
 import { useAuthentication } from '../../hooks/use-authentication'
@@ -93,6 +94,16 @@ export function LayoutSidebar() {
     <Sidebar>
       <SidebarHeader>
         <SidebarMenu>
+          {authentication.authenticatedUsuario?.isSuperAdmin && (
+            <SidebarMenuItem>
+              <Link to='/admin'>
+                <Button className='w-full' variant='default' disabled={isLoggingOut}>
+                  <ShieldUser />
+                  Acessar Super Admin
+                </Button>
+              </Link>
+            </SidebarMenuItem>
+          )}
           <SidebarMenuItem className="p-2">
             <p className='text-lg font-semibold'>Voz Ativa</p>
           </SidebarMenuItem>
@@ -189,17 +200,9 @@ export function LayoutSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          {authentication.authenticatedUsuario?.isSuperAdmin && (
-            <SidebarMenuItem>
-              <Link to='/admin'>
-                <Button className='w-full' variant='outline' disabled={isLoggingOut}>
-                  Super Admin
-                </Button>
-              </Link>
-            </SidebarMenuItem>
-          )}
           <SidebarMenuItem>
             <Button className='w-full' variant='destructive' onClick={handleLogout} disabled={isLoggingOut}>
+              <LogOut />
               Sair
             </Button>
           </SidebarMenuItem>
