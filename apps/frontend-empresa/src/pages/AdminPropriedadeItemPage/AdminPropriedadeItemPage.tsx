@@ -10,6 +10,7 @@ import { Button } from '../../components/ui/button'
 import { useState } from 'react'
 import { Pencil, ArrowLeft } from 'lucide-react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useAdminGetTipoPropriedadeById } from '../../hooks/fetch/use-admin-get-tipo-propriedade-by-id'
 
 const columnHelper = createColumnHelper<PropriedadeItem>()
 
@@ -24,6 +25,12 @@ export function AdminPropriedadeItemPage() {
     isPending: isLoadingPropriedadeItems,
     isError: isErrorLoadingPropriedadeItems
   } = useAdminListPropriedadeItems({ tipoPropriedadeId: idTipoPropriedade })
+
+  const {
+    data: tipoPropriedade,
+    isPending: isLoadingTipoPropriedade,
+    isError: isErrorLoadingTipoPropriedade
+  } = useAdminGetTipoPropriedadeById(idTipoPropriedade)
 
   const handleEdit = (propriedadeItem: PropriedadeItem) => {
     setEditingPropriedadeItem(propriedadeItem)
@@ -80,7 +87,11 @@ export function AdminPropriedadeItemPage() {
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <h1 className='text-2xl font-bold'>Itens de Propriedade</h1>
+          <h1 className='text-2xl font-bold'>
+            {isLoadingTipoPropriedade && 'Carregando...'}
+            {isErrorLoadingTipoPropriedade && 'Erro ao carregar tipo de propriedade'}
+            {!isLoadingTipoPropriedade && tipoPropriedade && `"${tipoPropriedade.nome}" - Itens de Propriedade`}
+          </h1>
         </div>
         {idTipoPropriedade && <CreatePropriedadeItemDialog tipoPropriedadeId={idTipoPropriedade} />}
       </div>
@@ -96,7 +107,7 @@ export function AdminPropriedadeItemPage() {
           <DataTable
             columns={columns}
             data={propriedadeItems}
-            isLoading={isLoadingPropriedadeItems}
+            isLoading={isLoadingPropriedadeItems || isLoadingTipoPropriedade}
             isError={isErrorLoadingPropriedadeItems}
           />
         </CardContent>
