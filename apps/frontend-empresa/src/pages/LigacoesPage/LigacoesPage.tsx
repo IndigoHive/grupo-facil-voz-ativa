@@ -14,8 +14,8 @@ const resizerStyle: React.CSSProperties = {
   right: 0,
   top: 0,
   height: '100%',
-  width: '5px',
-  background: 'rgba(0,0,0,0.5)',
+  width: '1px',
+  background: 'rgba(0, 0, 0, 0)',
   cursor: 'col-resize',
   userSelect: 'none',
   touchAction: 'none',
@@ -25,7 +25,7 @@ const resizerStyle: React.CSSProperties = {
 const resizerActiveStyle: React.CSSProperties = {
   ...resizerStyle,
   background: 'rgba(59, 130, 246, 0.8)',
-  width: '3px',
+  width: '2px',
 }
 
 export function LigacoesPage () {
@@ -60,38 +60,140 @@ export function LigacoesPage () {
   // Criar colunas dinamicamente
   const columns = useMemo(() => {
     const fixedColumns = [
-      columnHelper.accessor('id_unico', {
-        header: () => 'ID Único',
+      columnHelper.accessor('id', {
+        header: () => 'ID',
         cell: info => info.getValue() || '-',
-        size: 150,
       }),
       columnHelper.accessor('data_criacao', {
         header: () => 'Data',
         cell: info => <FormattedDate date={info.getValue()} />,
-        size: 120,
-      }),
-      columnHelper.accessor('nome_cliente', {
-        header: () => 'Cliente',
-        cell: info => info.getValue() || '-',
-        size: 150,
       }),
       columnHelper.accessor('nome_agente', {
         header: () => 'Agente',
         cell: info => info.getValue() || '-',
-        size: 150,
+      }),
+      columnHelper.accessor('nome_cliente', {
+        header: () => 'Cliente',
+        cell: info => info.getValue() || '-',
       }),
       columnHelper.accessor('status_resolucao', {
-        header: () => 'Status',
+        header: () => 'Status Resolução',
         cell: info => info.getValue() || '-',
-        size: 120,
+      }),
+      columnHelper.accessor('qualidade_servico', {
+        header: () => 'Qualidade Serviço',
+        cell: info => info.getValue() || '-',
       }),
       columnHelper.accessor('duracao_ligacao', {
-        header: () => 'Duração (s)',
+        header: () => 'Duração ligação (s)',
         cell: info => {
           const duracao = info.getValue()
           return duracao ? `${duracao}s` : '-'
         },
-        size: 120,
+      }),
+      columnHelper.accessor('sentimento_geral_cliente', {
+        header: () => 'Sentimento Geral Cliente',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('resumo', {
+        header: () => 'Resumo',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('id_unico', {
+        header: () => 'ID Único',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('dialogo', {
+        header: () => 'Diálogo',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('variacao_de_sentimento_cliente', {
+        header: () => 'Variação de Sentimento Cliente',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('numero_protocolo', {
+        header: () => 'Número Protocolo',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('cpf_cliente', {
+        header: () => 'CPF Cliente',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('irc_score', {
+        header: () => 'IRC Score',
+        cell: info => info.getValue() ?? '-',
+      }),
+      columnHelper.accessor('irc_score_pilar_1', {
+        header: () => 'IRC Score Pilar 1',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('irc_score_pilar_2', {
+        header: () => 'IRC Score Pilar 2',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('irc_score_pilar_3', {
+        header: () => 'IRC Score Pilar 3',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('irc_score_pilar_4', {
+        header: () => 'IRC Score Pilar 4',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('irc_classificacao', {
+        header: () => 'IRC Classificação',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_1_irc_trechos', {
+        header: () => 'Pilar 1 IRC Trechos',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_2_irc_trechos', {
+        header: () => 'Pilar 2 IRC Trechos',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_3_irc_trechos', {
+        header: () => 'Pilar 3 IRC Trechos',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_4_irc_trechos', {
+        header: () => 'Pilar 4 IRC Trechos',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_1_justificativa', {
+        header: () => 'Pilar 1 Justificativa',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_2_justificativa', {
+        header: () => 'Pilar 2 Justificativa',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_3_justificativa', {
+        header: () => 'Pilar 3 Justificativa',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('pilar_4_justificativa', {
+        header: () => 'Pilar 4 Justificativa',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('silencio_ligacao', {
+        header: () => 'Silêncio Ligação',
+        cell: info => info.getValue() ?? '-',
+      }),
+      columnHelper.accessor('pontos_obtidos_rn623', {
+        header: () => 'Pontos Obtidos RN623',
+        cell: info => info.getValue() ?? '-',
+      }),
+      columnHelper.accessor('score_conformidade_rn623', {
+        header: () => 'Score Conformidade RN623',
+        cell: info => info.getValue() ?? '-',
+      }),
+      columnHelper.accessor('nivel_conformidade_rn', {
+        header: () => 'Nível Conformidade RN',
+        cell: info => info.getValue() || '-',
+      }),
+      columnHelper.accessor('empresa_id', {
+        header: () => 'Empresa ID',
+        cell: info => info.getValue() || '-',
       }),
     ]
 
@@ -218,7 +320,7 @@ export function LigacoesPage () {
         <h1 className='text-2xl font-bold'>Ligações</h1>
       </div>
 
-      <Card>
+      <Card className='p-0'>
         <CardContent className="p-0">
           <div
             className="overflow-x-auto"
@@ -243,7 +345,7 @@ export function LigacoesPage () {
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
-                        className="h-10 px-2 text-left align-middle font-medium text-foreground whitespace-nowrap"
+                        className="h-10 p-5 text-left align-middle font-medium text-foreground whitespace-nowrap border-r border-border last:border-r-0"
                         style={{
                           width: header.getSize(),
                           position: 'relative',
@@ -287,8 +389,11 @@ export function LigacoesPage () {
                   <>
                     {Array.from({ length: 5 }).map((_, index) => (
                       <tr key={index} className="border-b transition-colors hover:bg-muted/50">
-                        {table.getAllColumns().map(column => (
-                          <td key={column.id} className="p-2 align-middle whitespace-nowrap">
+                        {table.getAllColumns().map((column, colIndex, arr) => (
+                          <td
+                            key={column.id}
+                            className={`p-2 align-middle whitespace-nowrap border-r border-border ${colIndex === arr.length - 1 ? 'border-r-0' : ''}`}
+                          >
                             <Skeleton className='w-full h-6' />
                           </td>
                         ))}
@@ -315,7 +420,7 @@ export function LigacoesPage () {
                       return (
                         <td
                           key={cell.id}
-                          className="p-2 align-middle"
+                          className="p-4 align-middle border-r border-border last:border-r-0"
                           style={{
                             width: cell.column.getSize(),
                             overflow: 'hidden',
