@@ -141,7 +141,7 @@ export function LigacoesPage () {
     if (target.closest('button') || target.closest('.resizer') || target.closest('input') || target.closest('select')) {
       return
     }
-    
+
     // Check if the event target or any parent has the resizer class
     if (target.classList.contains('resizer') || target.closest('.resizer')) {
       return
@@ -232,7 +232,7 @@ export function LigacoesPage () {
               ref={tableRef}
               onClickCapture={handleTableClickCapture}
               className="w-full caption-bottom text-sm"
-              style={{ 
+              style={{
                 width: table.getTotalSize(),
                 tableLayout: 'fixed'
               }}
