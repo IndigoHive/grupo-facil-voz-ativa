@@ -1,7 +1,19 @@
 import { prisma } from '@voz-ativa/database'
-import { UsuarioResult } from '../../lib/types/usuario-result'
 
-export async function listUsuarioService(): Promise<UsuarioResult[]> {
+type ListUsuarioResult = {
+  id: string
+  email: string
+  dataCriacao: Date
+  isSuperAdmin: boolean
+  empresas?: {
+    id: string
+    slug: string
+    isAdmin: boolean
+    isAtivo: boolean
+  }[]
+}
+
+export async function listUsuarioService(): Promise<ListUsuarioResult[]> {
   const usuarios = await prisma.usuario.findMany({
     include: {
       usuarioEmpresas: {
@@ -17,11 +29,11 @@ export async function listUsuarioService(): Promise<UsuarioResult[]> {
     email: usuario.email,
     id: usuario.id,
     isSuperAdmin: usuario.is_superadmin,
-    empresa: usuario.usuarioEmpresas[0]?.empresa ? {
-      id: usuario.usuarioEmpresas[0].empresa.id,
-      slug: usuario.usuarioEmpresas[0].empresa.slug,
-      isAdmin: usuario.usuarioEmpresas[0].is_admin,
-      isAtivo: usuario.usuarioEmpresas[0].is_ativo
-    } : undefined
+    empresas: usuario.usuarioEmpresas.map(ue => ({
+      id: ue.empresa.id,
+      slug: ue.empresa.slug,
+      isAdmin: ue.is_admin,
+      isAtivo: ue.is_ativo
+    }))
   }))
 }

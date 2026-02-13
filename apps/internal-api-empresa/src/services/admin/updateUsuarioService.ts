@@ -4,7 +4,6 @@ import { BadRequestError } from '../../lib/errors'
 import { prisma } from '@voz-ativa/database'
 
 const commandSchema = yup.object({
-  isAdmin: yup.boolean().required(),
   isSuperAdmin: yup.boolean().required(),
   empresaIds: yup.array().of(yup.string().uuid().required()).optional().nullable()
 })
@@ -15,12 +14,8 @@ type UpdateUsuarioResult = {
   id: string
 }
 
-export async function updateUsuarioService(id: string, command: UpdateUsuarioCommand) {
-  const { isAdmin, isSuperAdmin, empresaIds } = validateOrThrow<UpdateUsuarioCommand>(commandSchema, command)
-
-  if (isAdmin && !empresaIds) {
-    throw new BadRequestError('Empresa é obrigatória para usuários administradores')
-  }
+export async function updateUsuarioService(id: string, command: UpdateUsuarioCommand): Promise<UpdateUsuarioResult> {
+  const { isSuperAdmin, empresaIds } = validateOrThrow<UpdateUsuarioCommand>(commandSchema, command)
 
   if (!isSuperAdmin && !empresaIds) {
     throw new BadRequestError('Empresa é obrigatória para usuários que não são super admin')
@@ -40,18 +35,19 @@ export async function updateUsuarioService(id: string, command: UpdateUsuarioCom
     }
 
 
+    await tx.usuarioEmpresa.deleteMany({
+      where: {
+        usuario_id: usuario.id
+      }
+    })
+    
     if (empresaIds) {
-      await tx.usuarioEmpresa.deleteMany({
-        where: {
-          usuario_id: usuario.id
-        }
-      })
 
       await tx.usuarioEmpresa.createMany({
         data: empresaIds.map(empresaId => ({
           usuario_id: usuario.id,
           empresa_id: empresaId,
-          is_admin: isAdmin
+          is_admin: true
         }))
       })
     }
@@ -59,11 +55,12 @@ export async function updateUsuarioService(id: string, command: UpdateUsuarioCom
     await tx.usuario.update({
       where: { id },
       data: {
-        is_admin: isAdmin,
         is_superadmin: isSuperAdmin,
       }
     })
   })
 
-  return id
+  return {
+    id
+  }
 }
