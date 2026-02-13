@@ -6,6 +6,7 @@ import { SelecionarEmpresaPage } from './pages/SelecionarEmpresaPage'
 import { UsuariosPage } from './pages/Usuarios'
 import { ChavesApiPage } from './pages/ChavesApiPage'
 import { GatilhosPage } from './pages/GatilhosPage'
+import { AdminLayout } from './layout/AdminLayout'
 
 export const router = createBrowserRouter([
   {
@@ -41,5 +42,13 @@ export const router = createBrowserRouter([
         element: <GatilhosPage />
       }
     ]
+  },
+  {
+    path: '/admin',
+    element: (
+      <AuthenticationGuard signInPath={'/login'} requiresEmpresa={false} isAdminRoute={true}>
+        <AdminLayout />
+      </AuthenticationGuard>
+    )
   }
 ])
