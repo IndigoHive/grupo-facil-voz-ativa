@@ -5,10 +5,11 @@ import { useAuthentication } from '../../hooks/use-authentication'
 export type AuthenticationGuardProps = PropsWithChildren<{
   signInPath: string
   requiresEmpresa?: boolean
+  isAdminRoute?: boolean
 }>
 
 export function AuthenticationGuard (props: AuthenticationGuardProps) {
-  const { children, signInPath, requiresEmpresa = false } = props
+  const { children, signInPath, requiresEmpresa = false, isAdminRoute = false } = props
 
   const authentication = useAuthentication()
   const navigate = useNavigate()
@@ -44,8 +45,14 @@ export function AuthenticationGuard (props: AuthenticationGuardProps) {
     }
 
     // Se tem empresa selecionada mas está tentando acessar a página de seleção
-    if (!requiresEmpresa && hasEmpresa) {
-      navigate(`/${authentication.authenticatedUsuario.empresa?.slug}`, { replace: true })
+    // if (!requiresEmpresa && hasEmpresa) {
+    //   navigate(`/${authentication.authenticatedUsuario.empresa?.slug}`, { replace: true })
+    //   return
+    // }
+
+    // Se requer admin mas o usuário não é superadmin
+    if (isAdminRoute && !authentication.authenticatedUsuario.isSuperAdmin) {
+      navigate('/', { replace: true })
       return
     }
   }, [
@@ -54,6 +61,7 @@ export function AuthenticationGuard (props: AuthenticationGuardProps) {
     navigate,
     signInPath,
     requiresEmpresa,
+    isAdminRoute,
     empresaSlug
   ])
 
@@ -93,7 +101,12 @@ export function AuthenticationGuard (props: AuthenticationGuardProps) {
   }
 
   // Se não requer empresa mas tem (será redirecionado pelo useEffect)
-  if (!requiresEmpresa && hasEmpresa) {
+  // if (!requiresEmpresa && hasEmpresa) {
+  //   return null
+  // }
+
+  // Se requer admin mas não é superadmin (será redirecionado pelo useEffect)
+  if (isAdminRoute && !authentication.authenticatedUsuario.isSuperAdmin) {
     return null
   }
 
