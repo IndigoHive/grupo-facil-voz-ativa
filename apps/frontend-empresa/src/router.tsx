@@ -8,6 +8,7 @@ import { ChavesApiPage } from './pages/ChavesApiPage'
 import { GatilhosPage } from './pages/GatilhosPage'
 import { AdminLayout } from './layout/AdminLayout'
 import { AdminTipoPropriedadePage } from './pages/AdminTipoPropriedadePage'
+import { AdminEmpresasPage } from './pages/AdminEmpresasPage'
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: 'propriedades',
         element: <AdminTipoPropriedadePage />
+      },
+      {
+        path: 'empresas',
+        element: <AdminEmpresasPage />
       }
     ]
   }
