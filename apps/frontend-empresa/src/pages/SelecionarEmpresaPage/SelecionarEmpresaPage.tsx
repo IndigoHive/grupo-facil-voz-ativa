@@ -5,6 +5,7 @@ import { EmpresaCard } from './components/empresa-card'
 import { useAuthentication } from '../../hooks/use-authentication'
 import { Link, useNavigate } from 'react-router'
 import { Button } from '../../components/ui/button'
+import { ShieldUser } from 'lucide-react'
 
 export function SelecionarEmpresaPage () {
   const {
@@ -55,8 +56,9 @@ export function SelecionarEmpresaPage () {
         <div className="text-center">
           {authentication.authenticatedUsuario?.isSuperAdmin && (
             <Link to='/admin'>
-              <Button>
-                Acessar Admin
+              <Button  className='my-10'>
+                <ShieldUser />
+                Acessar Super Admin
               </Button>
             </Link>
           )}
