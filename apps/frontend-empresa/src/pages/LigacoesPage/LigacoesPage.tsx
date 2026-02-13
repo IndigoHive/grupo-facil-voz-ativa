@@ -305,15 +305,29 @@ export function LigacoesPage () {
                 )}
                 {table.getRowModel().rows.map(row => (
                   <tr key={row.id} className="border-b transition-colors hover:bg-muted/50">
-                    {row.getVisibleCells().map(cell => (
-                      <td
-                        key={cell.id}
-                        className="p-2 align-middle whitespace-nowrap"
-                        style={{ width: cell.column.getSize() }}
-                      >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </td>
-                    ))}
+                    {row.getVisibleCells().map(cell => {
+                      const content = flexRender(cell.column.columnDef.cell, cell.getContext())
+                      // Get text content for title
+                      const textContent = typeof content === 'string' || typeof content === 'number'
+                        ? String(content)
+                        : undefined
+
+                      return (
+                        <td
+                          key={cell.id}
+                          className="p-2 align-middle"
+                          style={{
+                            width: cell.column.getSize(),
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                          title={textContent}
+                        >
+                          {content}
+                        </td>
+                      )
+                    })}
                   </tr>
                 ))}
               </tbody>
