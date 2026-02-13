@@ -11,6 +11,7 @@ import { AdminTipoPropriedadePage } from './pages/AdminTipoPropriedadePage'
 import { AdminEmpresasPage } from './pages/AdminEmpresasPage'
 import { AdminUsuariosPage } from './pages/AdminUsuariosPage'
 import { AdminPropriedadeItemPage } from './pages/AdminPropriedadeItemPage'
+import { LigacoesPage } from './pages/LigacoesPage'
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       </AuthenticationGuard>
     ),
     children: [
+      {
+        path: '',
+        element: <LigacoesPage />
+      },
       {
         path: 'usuarios',
         element: <UsuariosPage />
