@@ -7,6 +7,7 @@ import { UsuariosPage } from './pages/Usuarios'
 import { ChavesApiPage } from './pages/ChavesApiPage'
 import { GatilhosPage } from './pages/GatilhosPage'
 import { AdminLayout } from './layout/AdminLayout'
+import { AdminTipoPropriedadePage } from './pages/AdminTipoPropriedadePage'
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,12 @@ export const router = createBrowserRouter([
       <AuthenticationGuard signInPath={'/login'} requiresEmpresa={false} isAdminRoute={true}>
         <AdminLayout />
       </AuthenticationGuard>
-    )
+    ),
+    children: [
+      {
+        path: 'propriedades',
+        element: <AdminTipoPropriedadePage />
+      }
+    ]
   }
 ])
