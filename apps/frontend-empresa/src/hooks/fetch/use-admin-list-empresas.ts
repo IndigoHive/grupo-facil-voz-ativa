@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useClient } from '../use-client'
 
-export function useListEmpresas() {
+export function useAdminListEmpresas() {
   const client = useClient()
 
   return useQuery({

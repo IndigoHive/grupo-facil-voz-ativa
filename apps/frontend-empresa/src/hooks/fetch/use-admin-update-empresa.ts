@@ -3,7 +3,7 @@ import { useClient } from '../use-client'
 import type { UpdateEmpresaCommand } from '../../client/clients/admin/admin-types'
 import { toast } from 'sonner'
 
-export function useUpdateEmpresa() {
+export function useAdminUpdateEmpresa() {
   const client = useClient()
   const queryClient = useQueryClient()
 
