@@ -8,7 +8,12 @@ import type {
   CreateTipoPropriedadeResult,
   UpdateTipoPropriedadeCommand,
   UpdateTipoPropriedadeResult,
-  TipoPropriedade
+  TipoPropriedade,
+  CreateUsuarioCommand,
+  CreateUsuarioResult,
+  UpdateUsuarioCommand,
+  UpdateUsuarioResult,
+  Usuario
 } from './admin-types'
 
 export class AdminClient {
@@ -44,5 +49,18 @@ export class AdminClient {
 
   async listTipoPropriedades(): Promise<TipoPropriedade[]> {
     return (await this.axios.get('/admin/tipos-propriedade')).data;
+  }
+
+  // Usuários
+  async listUsuarios(): Promise<Usuario[]> {
+    return (await this.axios.get('/admin/usuarios')).data;
+  }
+
+  async createUsuario(data: CreateUsuarioCommand): Promise<CreateUsuarioResult> {
+    return (await this.axios.post('/admin/usuarios', data)).data;
+  }
+
+  async updateUsuario(id: string, data: UpdateUsuarioCommand): Promise<UpdateUsuarioResult> {
+    return (await this.axios.patch(`/admin/usuarios/${id}`, data)).data;
   }
 }

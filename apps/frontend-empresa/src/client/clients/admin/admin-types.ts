@@ -49,3 +49,38 @@ export type TipoPropriedade = {
   is_sistema: boolean;
   is_ativo: boolean;
 }
+
+// Usuários
+export type CreateUsuarioCommand = {
+  email: string;
+  isAdmin?: boolean;
+  isSuperAdmin?: boolean;
+  empresaIds?: string[] | null;
+}
+
+export type CreateUsuarioResult = {
+  id: string;
+}
+
+export type UpdateUsuarioCommand = {
+  isAdmin: boolean;
+  isSuperAdmin: boolean;
+  empresaIds?: string[] | null;
+}
+
+export type UpdateUsuarioResult = {
+  id: string;
+}
+
+export type Usuario = {
+  id: string;
+  email: string;
+  dataCriacao: string;
+  isSuperAdmin: boolean;
+  empresa?: {
+    id: string;
+    slug: string;
+    isAdmin: boolean;
+    isAtivo: boolean;
+  };
+}
