@@ -10,6 +10,9 @@ import { listTipoPropriedadesService } from '../services/admin/listTipoProprieda
 import { listUsuarioService } from '../services/admin/listUsuariosService'
 import { createUsuarioService } from '../services/admin/createUsuarioService'
 import { updateUsuarioService } from '../services/admin/updateUsuarioService'
+import { listPropriedadeItems } from '../services/admin/listPropriedadeItems'
+import { createPropriedadeItem } from '../services/admin/createPropriedadeItemService'
+import { updatePropriedadeItem } from '../services/admin/updatePropriedadeItemService'
 
 export const adminRouter = Router();
 
@@ -66,3 +69,21 @@ adminRouter.patch('/usuarios/:id', superAdminMiddleware, async (req, res) => {
   const result = await updateUsuarioService(id, req.body);
   res.status(204).json(result);
 });
+
+adminRouter.get('/propriedade-items', superAdminMiddleware, async (req, res) => {
+  const result = await listPropriedadeItems(req.query);
+  res.status(200).json(result);
+});
+
+adminRouter.post('/propriedade-items', superAdminMiddleware, async (req, res) => {
+  const result = await createPropriedadeItem(req.body);
+  res.status(201).json(result);
+});
+
+adminRouter.patch('/propriedade-items/:id', superAdminMiddleware, async (req, res) => {
+  const { id } = req.params as { id: string };
+  const result = await updatePropriedadeItem(id, req.body);
+  res.status(204).json(result);
+});
+
+
