@@ -22,7 +22,7 @@ export async function updateTipoPropriedadeService(
 
   await prisma.tipoPropriedade.update({
     where: { id },
-    data: { nome, descricao, isAtivo }
+    data: { nome, descricao, is_ativo: isAtivo }
   })
 
   return { id }
