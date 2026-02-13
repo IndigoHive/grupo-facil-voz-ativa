@@ -3,7 +3,8 @@ import { useSelectEmpresa } from '../../hooks/fetch/use-select-empresa'
 import { cn } from '../../lib/utils'
 import { EmpresaCard } from './components/empresa-card'
 import { useAuthentication } from '../../hooks/use-authentication'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
+import { Button } from '../../components/ui/button'
 
 export function SelecionarEmpresaPage () {
   const {
@@ -52,6 +53,13 @@ export function SelecionarEmpresaPage () {
     <div className='h-screen w-full flex items-center justify-center p-6'>
       <div className={cn("flex flex-col gap-6 w-full max-w-2xl")}>
         <div className="text-center">
+          {authentication.authenticatedUsuario?.isSuperAdmin && (
+            <Link to='/admin'>
+              <Button>
+                Acessar Admin
+              </Button>
+            </Link>
+          )}
           <h1 className="text-3xl font-bold mb-2">Selecione uma Empresa</h1>
           <p className="text-muted-foreground">
             Escolha a empresa que você deseja acessar
