@@ -15,6 +15,10 @@ type UpdateUsuarioCommand = yup.InferType<typeof updateSchema>
 export async function updateUsuarioService (authenticatedUsuario: UsuarioResult, id: string, data: UpdateUsuarioCommand) {
   validateIsAdminOrSuperAdmin(authenticatedUsuario)
 
+  if (authenticatedUsuario.id === id) {
+    throw new BadRequestError('Não é permitido atualizar as próprias permissões')
+  }
+
   const { isAdmin, isAtivo } = validateOrThrow<UpdateUsuarioCommand>(updateSchema, data)
 
   const usuarioEmpresa = await prisma.usuarioEmpresa.findFirst({
