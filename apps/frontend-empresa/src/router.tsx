@@ -10,6 +10,7 @@ import { AdminLayout } from './layout/AdminLayout'
 import { AdminTipoPropriedadePage } from './pages/AdminTipoPropriedadePage'
 import { AdminEmpresasPage } from './pages/AdminEmpresasPage'
 import { AdminUsuariosPage } from './pages/AdminUsuariosPage'
+import { AdminPropriedadeItemPage } from './pages/AdminPropriedadeItemPage'
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: 'propriedades',
         element: <AdminTipoPropriedadePage />
+      },
+      {
+        path: 'propriedades/:idTipoPropriedade',
+        element: <AdminPropriedadeItemPage />
       },
       {
         path: 'empresas',
