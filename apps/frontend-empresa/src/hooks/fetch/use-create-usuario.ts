@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useClient } from '../use-client'
 import type { CreateUsuarioCommand } from '../../client/clients/usuarios/usuarios-types'
 import { toast } from 'sonner'
+import { getApiErrorMessage } from '../../lib/error-handler'
 
 export function useCreateUsuario() {
   const client = useClient()
@@ -14,8 +15,9 @@ export function useCreateUsuario() {
       queryClient.invalidateQueries({ queryKey: ['usuarios.list'] })
       toast.success('Usuário criado com sucesso')
     },
-    onError: () => {
-      toast.error('Erro ao criar usuário')
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error)
+      toast.error(errorMessage)
     }
   })
 }

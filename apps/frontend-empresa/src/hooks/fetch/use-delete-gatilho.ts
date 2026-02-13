@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useClient } from '../use-client'
 import { toast } from 'sonner'
+import { getApiErrorMessage } from '../../lib/error-handler'
 
 export function useDeleteGatilho() {
   const client = useClient()
@@ -13,8 +14,9 @@ export function useDeleteGatilho() {
       queryClient.invalidateQueries({ queryKey: ['gatilhos.list'] })
       toast.success('Gatilho excluído com sucesso')
     },
-    onError: () => {
-      toast.error('Erro ao excluir gatilho')
+    onError: (error) => {
+      const errorMessage = getApiErrorMessage(error)
+      toast.error(errorMessage)
     }
   })
 }
