@@ -4,6 +4,7 @@ import { BadRequestError } from '../../lib/errors'
 import { hashPassword } from '../../lib/password'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 import { prisma } from '@voz-ativa/database'
+import { validateIsAdminOrSuperAdmin } from '../../lib/validateIsAdminOrSuperAdmin'
 
 const commandSchema = yup.object({
   email: yup.string().email().required(),
@@ -17,9 +18,7 @@ export async function createUsuarioService(
   authenticatedUsuario: UsuarioResult,
   command: CreateUsuarioCommand
 ): Promise<void> {
-  if (authenticatedUsuario.empresa?.isAdmin !== true) {
-    throw new BadRequestError('Apenas administradores da empresa podem criar novos usuários')
-  }
+  validateIsAdminOrSuperAdmin(authenticatedUsuario)
 
   const { email, isAdmin } = validateOrThrow<CreateUsuarioCommand>(commandSchema, command)
 
@@ -32,7 +31,15 @@ export async function createUsuarioService(
   })
 
   if (existingUser) {
-    throw new BadRequestError(`Usuário já existe com o email "${email}"`)
+    await prisma.usuarioEmpresa.create({
+      data: {
+        usuario_id: existingUser.id,
+        empresa_id: authenticatedUsuario.empresa!.id,
+        is_admin: isAdmin
+      }
+    })
+
+    return
   }
 
   const senhaHash = await hashPassword(email);

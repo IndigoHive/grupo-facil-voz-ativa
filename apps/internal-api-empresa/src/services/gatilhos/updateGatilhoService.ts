@@ -2,6 +2,7 @@ import { Gatilho, prisma } from '@voz-ativa/database'
 import * as yup from 'yup'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 import { validateOrThrow } from '../../lib/validateOrThrow'
+import { validateIsAdminOrSuperAdmin } from '../../lib/validateIsAdminOrSuperAdmin'
 
 const commandSchema = yup.object({
   descricao: yup.string().required('A descrição é obrigatória')
@@ -14,6 +15,7 @@ export async function updateGatilhoService(
   id: string,
   command: UpdateGatilhoCommand
 ): Promise<Gatilho> {
+  validateIsAdminOrSuperAdmin(authenticatedUsuario)
   const validateValues = validateOrThrow<UpdateGatilhoCommand>(commandSchema, command)
 
   const result = await prisma.gatilho.update({

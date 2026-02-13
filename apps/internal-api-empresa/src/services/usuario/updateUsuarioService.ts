@@ -3,6 +3,7 @@ import { validateOrThrow } from '../../lib/validateOrThrow'
 import { UsuarioResult } from '../../lib/types/usuario-result'
 import { BadRequestError } from '../../lib/errors'
 import { prisma } from '@voz-ativa/database'
+import { validateIsAdminOrSuperAdmin } from '../../lib/validateIsAdminOrSuperAdmin'
 
 const updateSchema = yup.object({
   isAtivo: yup.boolean().optional(),
@@ -12,11 +13,9 @@ const updateSchema = yup.object({
 type UpdateUsuarioCommand = yup.InferType<typeof updateSchema>
 
 export async function updateUsuarioService (authenticatedUsuario: UsuarioResult, id: string, data: UpdateUsuarioCommand) {
-  const { isAdmin, isAtivo } = validateOrThrow<UpdateUsuarioCommand>(updateSchema, data)
+  validateIsAdminOrSuperAdmin(authenticatedUsuario)
 
-  if (authenticatedUsuario.empresa?.isAdmin !== true) {
-    throw new BadRequestError('Apenas administradores da empresa podem atualizar usuários')
-  }
+  const { isAdmin, isAtivo } = validateOrThrow<UpdateUsuarioCommand>(updateSchema, data)
 
   const usuarioEmpresa = await prisma.usuarioEmpresa.findFirst({
     where: {
@@ -31,7 +30,9 @@ export async function updateUsuarioService (authenticatedUsuario: UsuarioResult,
 
   await prisma.usuarioEmpresa.update({
     where: {
-      id: usuarioEmpresa.id
+      id: usuarioEmpresa.id,
+      empresa_id: authenticatedUsuario.empresa!.id,
+      usuario_id: id
     },
     data: {
       is_ativo: isAtivo !== undefined ? isAtivo : usuarioEmpresa.is_ativo,
