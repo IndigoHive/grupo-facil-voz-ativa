@@ -9,6 +9,7 @@ import { CreateTipoPropriedadeDialog, UpdateTipoPropriedadeDialog } from './comp
 import { Button } from '../../components/ui/button'
 import { useState } from 'react'
 import { Pencil } from 'lucide-react'
+import { Link } from 'react-router'
 
 const columnHelper = createColumnHelper<TipoPropriedade>()
 
@@ -30,6 +31,13 @@ export function AdminTipoPropriedadePage() {
   const columns = [
     columnHelper.accessor('nome', {
       header: () => 'Nome',
+      cell: info => (
+      <Link to={`/admin/propriedades/${info.row.original.id}`}>
+        <Button variant='link'>
+          {info.getValue()}
+        </Button>
+      </Link>
+    )
     }),
     columnHelper.accessor('descricao', {
       header: () => 'Descrição',
@@ -37,13 +45,6 @@ export function AdminTipoPropriedadePage() {
     columnHelper.accessor('data_criacao', {
       header: () => 'Data de Criação',
       cell: info => <FormattedDate date={info.getValue()} />
-    }),
-    columnHelper.accessor('is_sistema', {
-      header: () => 'Sistema',
-      cell: info => {
-        const isSistema = info.getValue()
-        return <Badge variant={isSistema ? 'default' : 'secondary'}>{isSistema ? 'Sim' : 'Não'}</Badge>
-      }
     }),
     columnHelper.accessor('is_ativo', {
       header: () => 'Ativo',

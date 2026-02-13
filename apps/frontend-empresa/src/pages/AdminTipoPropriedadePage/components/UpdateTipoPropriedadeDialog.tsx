@@ -60,8 +60,6 @@ export function UpdateTipoPropriedadeDialog({ tipoPropriedade, open, onOpenChang
     })
   }
 
-  const isSistema = tipoPropriedade?.is_sistema ?? false
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -101,7 +99,6 @@ export function UpdateTipoPropriedadeDialog({ tipoPropriedade, open, onOpenChang
                 checked={isAtivo}
                 onChange={(e) => setIsAtivo(e.target.checked)}
                 className="h-4 w-4"
-                disabled={isSistema}
               />
               <Label htmlFor="edit-isAtivo" className="cursor-pointer">
                 Ativo
