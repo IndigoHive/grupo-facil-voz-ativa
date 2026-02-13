@@ -7,6 +7,9 @@ import { cleanUsuarioSenhaService } from '../services/admin/cleanUsuarioSenhaSer
 import { createTipoPropriedadeService } from '../services/admin/createTipoPropriedadeService'
 import { updateTipoPropriedadeService } from '../services/admin/updateTipoPropriedadeService'
 import { listTipoPropriedadesService } from '../services/admin/listTipoPropriedadesService'
+import { listUsuarioService } from '../services/admin/listUsuariosService'
+import { createUsuarioService } from '../services/admin/createUsuarioService'
+import { updateUsuarioService } from '../services/admin/updateUsuarioService'
 
 export const adminRouter = Router();
 
@@ -46,4 +49,20 @@ adminRouter.patch('/tipos-propriedade/:id', superAdminMiddleware, async (req, re
 adminRouter.get('/tipos-propriedade', superAdminMiddleware, async (req, res) => {
   const result = await listTipoPropriedadesService();
   res.status(200).json(result);
+});
+
+adminRouter.get('/usuarios', superAdminMiddleware, async (req, res) => {
+  const result = await listUsuarioService();
+  res.status(200).json(result);
+});
+
+adminRouter.post('/usuarios', superAdminMiddleware, async (req, res) => {
+  const result = await createUsuarioService(req.body);
+  res.status(201).json(result);
+});
+
+adminRouter.patch('/usuarios/:id', superAdminMiddleware, async (req, res) => {
+  const { id } = req.params as { id: string };
+  const result = await updateUsuarioService(id, req.body);
+  res.status(204).json(result);
 });
