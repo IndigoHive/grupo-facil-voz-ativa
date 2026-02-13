@@ -14,4 +14,12 @@ export class NotFoundError extends Error {
   }
 }
 
+export class ForbiddenError extends Error {
+  status: number = 403;
+  constructor(message: string) {
+    super(message);
+    this.name = 'ForbiddenError';
+  }
+}
+
 // Você pode adicionar outros erros customizados conforme necessário
