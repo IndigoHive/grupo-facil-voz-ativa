@@ -57,6 +57,10 @@ export class AdminClient {
     return (await this.axios.get('/admin/tipos-propriedade')).data;
   }
 
+  async getTipoPropriedadeById(id: string): Promise<TipoPropriedade> {
+    return (await this.axios.get(`/admin/tipos-propriedade/${id}`)).data;
+  }
+
   // Usuários
   async listUsuarios(): Promise<ListUsuarioResult[]> {
     return (await this.axios.get('/admin/usuarios')).data;
