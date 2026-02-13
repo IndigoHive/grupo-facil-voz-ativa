@@ -16,3 +16,8 @@ export type Usuario = {
 export type CreateUsuarioResponse = {
   message: string
 }
+
+export type UpdateUsuarioCommand = {
+  isAtivo?: boolean
+  isAdmin?: boolean
+}

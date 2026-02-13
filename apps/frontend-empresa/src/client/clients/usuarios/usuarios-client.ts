@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'axios'
-import type { CreateUsuarioCommand, CreateUsuarioResponse } from './usuarios-types'
+import type { CreateUsuarioCommand, CreateUsuarioResponse, UpdateUsuarioCommand } from './usuarios-types'
 import type { UsuarioResult } from '../../types/usuario-result'
 
 export class UsuariosClient {
@@ -19,5 +19,9 @@ export class UsuariosClient {
 
   async revogarAcesso (usuarioId: string): Promise<void> {
     await this.axios.post(`/usuarios/${usuarioId}/revogar-acesso`)
+  }
+
+  async update (usuarioId: string, data: UpdateUsuarioCommand): Promise<void> {
+    await this.axios.patch(`/usuarios/${usuarioId}`, data)
   }
 }
