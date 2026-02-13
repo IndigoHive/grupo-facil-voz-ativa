@@ -95,3 +95,37 @@ export type ListUsuarioResult = {
     isAtivo: boolean
   }[]
 }
+
+// Propriedade Items
+export type CreatePropriedadeItemCommand = {
+  tipoPropriedadeId: string;
+  nome: string;
+  descricao: string;
+}
+
+export type CreatePropriedadeItemResult = {
+  id: string;
+}
+
+export type UpdatePropriedadeItemCommand = {
+  nome: string;
+  descricao: string;
+  isAtivo?: boolean | null;
+}
+
+export type UpdatePropriedadeItemResult = {
+  id: string;
+}
+
+export type PropriedadeItem = {
+  id: string;
+  nome: string;
+  descricao: string;
+  tipo_propriedade_id: string;
+  is_ativo: boolean;
+  data_criacao: string;
+}
+
+export type ListPropriedadeItemsQuery = {
+  tipoPropriedadeId?: string | null;
+}
