@@ -6,12 +6,17 @@ export async function listUsuarioService(authenticatedUsuario: UsuarioResult): P
     where: {
       usuarioEmpresas: {
         some: {
-          empresa_id: authenticatedUsuario.empresa!.id
+          empresa_id: {
+            equals: authenticatedUsuario.empresa!.id
+          }
         }
       }
     },
     include: {
       usuarioEmpresas: {
+        where: {
+          empresa_id: authenticatedUsuario.empresa!.id
+        },
         include: {
           empresa: true
         }
