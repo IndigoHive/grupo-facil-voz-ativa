@@ -3,6 +3,7 @@ import { createUsuarioService } from '../services/usuario/createUsuarioService'
 import { listUsuarioService } from '../services/usuario/listUsuarioService'
 import { validateEmpresaAtualMiddleware } from '../middleware/validateEmpresaAtualMiddleware'
 import { revokeUsuarioService } from '../services/usuario/revokeUsuarioService'
+import { updateUsuarioService } from '../services/usuario/updateUsuarioService'
 
 export const usuarioRouter = Router();
 
@@ -24,4 +25,13 @@ usuarioRouter.post("/:id/revogar-acesso", validateEmpresaAtualMiddleware, async 
   await revokeUsuarioService(req.user!, id as string)
 
   return res.status(200).json({ message: "Acesso revogado com sucesso" })
+});
+
+usuarioRouter.patch("/:id", validateEmpresaAtualMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+
+  await updateUsuarioService(req.user!, id as string, data);
+
+  return res.status(200).json({ message: "Usuário atualizado com sucesso" });
 });
