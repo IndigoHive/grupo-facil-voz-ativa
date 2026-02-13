@@ -1,3 +1,14 @@
+type PropriedadeItem = {
+  id: string
+  nome: string
+}
+
+type PropriedadeAgrupada = {
+  id: string
+  nome: string
+  itens: PropriedadeItem[]
+}
+
 export type Ligacao = {
   id: string
   data_criacao: string
@@ -32,6 +43,7 @@ export type Ligacao = {
   score_conformidade_rn623: number | null
   nivel_conformidade_rn: string | null
   empresa_id: string | null
+  propriedades: PropriedadeAgrupada[]
 }
 
 export type Page<T> = {
