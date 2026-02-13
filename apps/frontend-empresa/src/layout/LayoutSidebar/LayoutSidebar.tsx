@@ -188,9 +188,22 @@ export function LayoutSidebar() {
         ))}
       </SidebarContent>
       <SidebarFooter>
-        <Button variant='destructive' onClick={handleLogout} disabled={isLoggingOut}>
-          Sair
-        </Button>
+        <SidebarMenu>
+          {authentication.authenticatedUsuario?.isSuperAdmin && (
+            <SidebarMenuItem>
+              <Link to='/admin'>
+                <Button className='w-full' variant='outline' disabled={isLoggingOut}>
+                  Super Admin
+                </Button>
+              </Link>
+            </SidebarMenuItem>
+          )}
+          <SidebarMenuItem>
+            <Button className='w-full' variant='destructive' onClick={handleLogout} disabled={isLoggingOut}>
+              Sair
+            </Button>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   )
