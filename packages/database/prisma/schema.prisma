@@ -45,6 +45,9 @@ model Empresa {
   gatilhos  Gatilho[]
   empresaChaveApis EmpresaChaveApi[]
   usuarioEmpresas UsuarioEmpresa[]
+
+  propriedadeItems PropriedadeItem[]
+  tipoPropriedades TipoPropriedade[]
 }
 
 model EmpresaChaveApi {
@@ -114,6 +117,55 @@ model Ligacao {
   sentimentos_agente              SentimentoAgenteLigacao[]
   criterios_rn                    CriterioAplicavelRnLigacao[]
   criterios_rn623                 CriterioAtendidoRn623Ligacao[]
+
+  ligacaoPropriedadeItems LigacaoPropriedadeItem[]
+}
+
+model TipoPropriedade {
+  id String @id @default(uuid())
+  nome String // 'TEMA', 'SENTIMENTO_CLIENTE_INICIAL', etc.
+  descricao String
+  empresa_id String? // null = global (criado por superadmin)
+  is_sistema Boolean @default(false) // Tipos core não podem ser deletados
+  is_ativo Boolean @default(true)
+  data_criacao DateTime @default(now())
+
+  empresa Empresa? @relation(fields: [empresa_id], references: [id])
+  propriedadeItems PropriedadeItem[]
+
+  @@unique([nome, empresa_id])
+}
+
+model PropriedadeItem {
+  id String @id @default(uuid())
+  nome String
+  descricao String
+  tipo_propriedade_id String
+  empresa_id String? // null = global, ou específico da empresa
+  is_ativo Boolean @default(true)
+  data_criacao DateTime @default(now())
+  metadados Json? // Para dados extras específicos
+
+  tipo_propriedade TipoPropriedade @relation(fields: [tipo_propriedade_id], references: [id])
+  empresa Empresa? @relation(fields: [empresa_id], references: [id])
+
+  ligacaoPropriedadeItems LigacaoPropriedadeItem[]
+
+  @@unique([nome, tipo_propriedade_id, empresa_id])
+  @@index([tipo_propriedade_id])
+  @@index([nome])
+}
+
+model LigacaoPropriedadeItem {
+  ligacao_id String
+  propriedade_item_id String
+
+  ligacao Ligacao @relation(fields: [ligacao_id], references: [id])
+  propriedade_item PropriedadeItem @relation(fields: [propriedade_item_id], references: [id])
+
+  @@id([ligacao_id, propriedade_item_id])
+  @@index([propriedade_item_id])
+  @@index([ligacao_id])
 }
 
 model Tema {
