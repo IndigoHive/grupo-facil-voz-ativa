@@ -13,6 +13,7 @@ import { updateUsuarioService } from '../services/admin/updateUsuarioService'
 import { listPropriedadeItems } from '../services/admin/listPropriedadeItems'
 import { createPropriedadeItem } from '../services/admin/createPropriedadeItemService'
 import { updatePropriedadeItem } from '../services/admin/updatePropriedadeItemService'
+import { getTipoPropriedadeById } from '../services/admin/getTipoPropriedadeById'
 
 export const adminRouter = Router();
 
@@ -51,6 +52,12 @@ adminRouter.patch('/tipos-propriedade/:id', superAdminMiddleware, async (req, re
 
 adminRouter.get('/tipos-propriedade', superAdminMiddleware, async (req, res) => {
   const result = await listTipoPropriedadesService();
+  res.status(200).json(result);
+});
+
+adminRouter.get('/tipos-propriedade/:id', superAdminMiddleware, async (req, res) => {
+  const { id } = req.params as { id: string };
+  const result = await getTipoPropriedadeById(id);
   res.status(200).json(result);
 });
 
