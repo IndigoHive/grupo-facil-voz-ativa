@@ -3,8 +3,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -19,7 +17,6 @@ import {
   KeyRound,
   LogOut
 } from "lucide-react"
-import type { ReactNode } from "react"
 import { useAuthentication } from '../../hooks/use-authentication'
 import { useLogout } from '../../hooks/fetch/use-logout'
 import { Button } from '../../components/ui/button'
@@ -27,35 +24,35 @@ import { useEmpresaDisponiveis } from '../../hooks/fetch/use-empresa-disponiveis
 import { useSelectEmpresa } from '../../hooks/fetch/use-select-empresa'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '../../components/ui/select'
 
-type MenuItem = {
-  label: string
-  to?: string
-  icon: ReactNode
-  items?: {
-    to: string
-    label: string
-    icon: ReactNode
-  }[]
-}
+// type MenuItem = {
+//   label: string
+//   to?: string
+//   icon: ReactNode
+//   items?: {
+//     to: string
+//     label: string
+//     icon: ReactNode
+//   }[]
+// }
 
-const MENU_ITEMS: MenuItem[] = [
-  {
-    label: "Admin",
-    icon: <ShieldUser />,
-    items: [
-      {
-        to: "/gatilhos",
-        label: "Gatilhos",
-        icon: <Send />,
-      },
-      {
-        to: "/usuarios",
-        label: "Usuários",
-        icon: <User />,
-      },
-    ],
-  },
-]
+// const MENU_ITEMS: MenuItem[] = [
+//   {
+//     label: "Admin",
+//     icon: <ShieldUser />,
+//     items: [
+//       {
+//         to: "/gatilhos",
+//         label: "Gatilhos",
+//         icon: <Send />,
+//       },
+//       {
+//         to: "/usuarios",
+//         label: "Usuários",
+//         icon: <User />,
+//       },
+//     ],
+//   },
+// ]
 
 export function LayoutSidebar() {
   const location = useLocation()
@@ -155,9 +152,31 @@ export function LayoutSidebar() {
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={location.pathname === `/${empresaSlug}/gatilhos`}
+              >
+                <Link to={`/${empresaSlug}/gatilhos`}>
+                  <Send />
+                  Gatilhos
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={location.pathname === `/${empresaSlug}/usuarios`}
+              >
+                <Link to={`/${empresaSlug}/usuarios`}>
+                   <User />
+                  Usuários
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
-        {MENU_ITEMS.map((item) => (
+        {/* {MENU_ITEMS.map((item) => (
           <SidebarGroup key={item.label}>
             <SidebarGroupContent>
               {item.items ? (
@@ -196,7 +215,7 @@ export function LayoutSidebar() {
               )}
             </SidebarGroupContent>
           </SidebarGroup>
-        ))}
+        ))} */}
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
