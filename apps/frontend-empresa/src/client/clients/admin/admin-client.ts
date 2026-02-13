@@ -13,7 +13,7 @@ import type {
   CreateUsuarioResult,
   UpdateUsuarioCommand,
   UpdateUsuarioResult,
-  Usuario
+  ListUsuarioResult
 } from './admin-types'
 
 export class AdminClient {
@@ -52,7 +52,7 @@ export class AdminClient {
   }
 
   // Usuários
-  async listUsuarios(): Promise<Usuario[]> {
+  async listUsuarios(): Promise<ListUsuarioResult[]> {
     return (await this.axios.get('/admin/usuarios')).data;
   }
 

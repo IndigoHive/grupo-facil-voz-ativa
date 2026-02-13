@@ -9,6 +9,7 @@ import { GatilhosPage } from './pages/GatilhosPage'
 import { AdminLayout } from './layout/AdminLayout'
 import { AdminTipoPropriedadePage } from './pages/AdminTipoPropriedadePage'
 import { AdminEmpresasPage } from './pages/AdminEmpresasPage'
+import { AdminUsuariosPage } from './pages/AdminUsuariosPage'
 
 export const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: 'empresas',
         element: <AdminEmpresasPage />
+      },
+      {
+        path: 'usuarios',
+        element: <AdminUsuariosPage />
       }
     ]
   }

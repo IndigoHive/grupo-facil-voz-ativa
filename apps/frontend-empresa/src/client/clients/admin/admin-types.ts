@@ -53,7 +53,6 @@ export type TipoPropriedade = {
 // Usuários
 export type CreateUsuarioCommand = {
   email: string;
-  isAdmin?: boolean;
   isSuperAdmin?: boolean;
   empresaIds?: string[] | null;
 }
@@ -63,7 +62,6 @@ export type CreateUsuarioResult = {
 }
 
 export type UpdateUsuarioCommand = {
-  isAdmin: boolean;
   isSuperAdmin: boolean;
   empresaIds?: string[] | null;
 }
@@ -83,4 +81,17 @@ export type Usuario = {
     isAdmin: boolean;
     isAtivo: boolean;
   };
+}
+
+export type ListUsuarioResult = {
+  id: string
+  email: string
+  dataCriacao: Date
+  isSuperAdmin: boolean
+  empresas?: {
+    id: string
+    slug: string
+    isAdmin: boolean
+    isAtivo: boolean
+  }[]
 }
